@@ -1,14 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
+  <title>DCOING - 오늘 뭐 먹지?</title>
   <link href='/style.css' rel='stylesheet'>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
+  <main class="app-container">
+    <header class="app-header">
+      <h1>오늘 뭐 먹지?</h1>
+      <p>버튼을 눌러 메뉴를 추천받으세요!</p>
+    </header>
+    <div class="food-suggestion-container">
+      <food-suggestion></food-suggestion>
+    </div>
+    <button id="pick-food-btn">메뉴 추천받기</button>
+  </main>
   <script defer type="text/javascript" src="/main.js"></script>
 </body>
 </html>
