@@ -5,8 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const pickFoodButton = document.getElementById('pick-food-btn');
 
     // 테마 설정
+    const updateThemeButton = (theme) => {
+        themeToggleButton.textContent = theme === 'dark' ? '☀️ 라이트 모드' : '🌙 다크 모드';
+    };
+
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeButton(currentTheme);
 
     themeToggleButton.addEventListener('click', () => {
         let theme = document.documentElement.getAttribute('data-theme');
@@ -17,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
+        updateThemeButton(theme);
     });
 
     // 음식 추천 기능 (기존 기능 유지)
