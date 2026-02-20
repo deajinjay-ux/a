@@ -35,7 +35,6 @@ body {
   width: 100vw;
 }
 
-/* Preview Area: Occupies 50% on mobile for large avatar visibility */
 .preview-area {
   flex: 0 0 50%;
   background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
@@ -75,10 +74,8 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  /* Size significantly increased to fill 50% of the screen */
   max-width: 200px; 
   filter: drop-shadow(0 25px 30px rgba(0,0,0,0.15));
-  transition: transform 0.3s ease;
 }
 
 svg {
@@ -88,7 +85,6 @@ svg {
   overflow: visible;
 }
 
-/* Action Buttons with Premium Gradients */
 .mobile-float {
   display: flex;
   flex-direction: column;
@@ -117,24 +113,11 @@ svg {
 
 .btn i { width: 18px; height: 18px; }
 
-.btn.primary { 
-    background: var(--grad-primary); 
-    color: white;
-}
-.btn.primary:hover { 
-    transform: translateY(-2px); 
-    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4); 
-}
+.btn.primary { background: var(--grad-primary); color: white; }
+.btn.primary:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4); }
 
-.btn.secondary { 
-    background: var(--grad-secondary); 
-    color: var(--text-primary); 
-    border: 1px solid var(--border-color);
-}
-.btn.secondary:hover { 
-    background: #ffffff;
-    transform: translateY(-2px);
-}
+.btn.secondary { background: var(--grad-secondary); color: var(--text-primary); border: 1px solid var(--border-color); }
+.btn.secondary:hover { background: #ffffff; transform: translateY(-2px); }
 
 /* Controls Panel */
 .controls-panel {
@@ -215,6 +198,14 @@ svg {
   margin-bottom: 0.75rem;
 }
 
+/* SHRUNK LABEL ICONS */
+.control-group label i { 
+    width: 8px; 
+    height: 8px; 
+    color: var(--accent-color);
+    opacity: 0.7;
+}
+
 .style-options {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -230,9 +221,22 @@ svg {
   font-weight: 700;
   color: var(--text-secondary);
   transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+/* STYLE BUTTON ICONS */
+.style-btn i {
+    width: 16px;
+    height: 16px;
+    color: var(--accent-color);
 }
 
 .style-btn.active { background: #eef2ff; color: var(--accent-color); border-color: var(--accent-color); border-width: 2px; }
+.style-btn.active i { color: var(--accent-color); }
 
 .color-options { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
 .color-swatch { 
@@ -252,7 +256,6 @@ input[type="color"] {
     background: white; 
 }
 
-/* Desktop Adjustments */
 @media (min-width: 801px) {
   .preview-area { flex: 0 0 45%; padding: 2rem; }
   .canvas-container { max-width: 300px; }
