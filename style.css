@@ -15,6 +15,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -31,16 +32,17 @@ body {
   width: 100vw;
 }
 
-/* Preview Area */
+/* Preview Area (Left Side) */
 .preview-area {
-  flex: 1;
+  flex: 0 0 40%;
   background: radial-gradient(circle at center, #e2e8f0 0%, #cbd5e1 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-right: 1px solid var(--border-color);
   position: relative;
-  padding: 2rem;
 }
 
 .canvas-container {
@@ -49,190 +51,129 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 600px;
-  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+  /* Halved size logic: container limits svg */
+  max-width: 150px; 
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
 }
 
 svg {
   width: 100%;
-  height: 100%;
-  max-height: 80vh;
+  height: auto;
+  max-height: 70vh;
   overflow: visible;
 }
 
 .actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-  z-index: 10;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1rem;
 }
 
 .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 0.95rem;
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 0.4rem;
+  font-weight: 700;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: all 0.2s ease;
   border: none;
+  text-align: center;
 }
 
-.btn.primary {
-  background-color: var(--accent-color);
-  color: white;
-}
-.btn.primary:hover {
-  background-color: var(--accent-hover);
-  transform: translateY(-1px);
-}
+.btn.primary { background-color: var(--accent-color); color: white; }
+.btn.secondary { background-color: white; color: var(--text-primary); border: 1px solid var(--border-color); }
 
-.btn.secondary {
-  background-color: white;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-/* Controls Panel */
+/* Controls Panel (Right Side) */
 .controls-panel {
-  width: 400px;
+  flex: 1;
   background-color: var(--panel-bg);
-  border-left: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-lg);
-  z-index: 20;
+  overflow: hidden;
 }
 
 .panel-header {
-  padding: 1.5rem 2rem;
+  padding: 1rem;
   border-bottom: 1px solid var(--border-color);
 }
 
-.panel-header h1 {
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-}
+.panel-header h1 { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; }
 
 .tabs {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.25rem;
   background: #f3f4f6;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
+  padding: 0.2rem;
+  border-radius: 0.4rem;
 }
 
 .tab-btn {
   flex: 1;
-  padding: 0.5rem;
+  padding: 0.4rem;
   border: none;
   background: none;
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: 700;
+  font-size: 0.75rem;
   color: var(--text-secondary);
+  border-radius: 0.3rem;
   cursor: pointer;
-  border-radius: 0.4rem;
-  transition: all 0.2s;
 }
 
-.tab-btn.active {
-  background: white;
-  color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
-}
+.tab-btn.active { background: white; color: var(--text-primary); box-shadow: var(--shadow-sm); }
 
 .controls-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
-.tab-content {
-  display: none;
-}
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 
-.tab-content.active {
-  display: block;
-}
-
-.control-group {
-  margin-bottom: 2rem;
-}
-
+.control-group { margin-bottom: 1.5rem; }
 .control-group label {
   display: block;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.7rem;
+  font-weight: 800;
   text-transform: uppercase;
   color: var(--text-secondary);
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
 }
 
-/* Style Buttons */
 .style-options {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .style-btn {
-  padding: 0.75rem;
+  padding: 0.5rem;
   background: white;
   border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: all 0.2s;
+  border-radius: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.style-btn:hover {
-  border-color: var(--accent-color);
-}
+.style-btn.active { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-.style-btn.active {
-  background: var(--accent-color);
-  color: white;
-  border-color: var(--accent-color);
-}
+.color-options { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
+.color-swatch { width: 1.75rem; height: 1.75rem; border-radius: 50%; border: 2px solid transparent; }
+.color-swatch.active { border-color: var(--text-primary); transform: scale(1.1); }
 
-/* Color Options */
-.color-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
+input[type="color"] { width: 100%; height: 32px; border-radius: 0.4rem; border: 1px solid var(--border-color); background: white; }
 
-.color-swatch {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: transform 0.2s;
-}
-
-.color-swatch.active {
-  border-color: var(--text-primary);
-  transform: scale(1.1);
-}
-
-input[type="color"] {
-  width: 100%;
-  height: 36px;
-  border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
-  cursor: pointer;
-  background: white;
-}
-
-@media (max-width: 800px) {
-  .app-container { flex-direction: column; height: auto; overflow-y: auto; }
-  .controls-panel { width: 100%; border-left: none; border-top: 1px solid var(--border-color); }
-  .preview-area { height: 50vh; }
+/* Desktop overrides */
+@media (min-width: 801px) {
+  .preview-area { flex: 0 0 500px; }
+  .canvas-container { max-width: 300px; }
+  .actions { flex-direction: row; }
+  .btn { font-size: 0.95rem; padding: 0.75rem; }
+  .panel-header h1 { font-size: 1.5rem; }
+  .tab-btn { font-size: 0.9rem; padding: 0.6rem; }
+  .style-options { grid-template-columns: repeat(3, 1fr); }
+  .style-btn { font-size: 0.85rem; }
+  .color-swatch { width: 2.5rem; height: 2.5rem; }
 }
