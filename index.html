@@ -2,16 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Avatar Studio | Premium Character Creator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Avatar Studio Pro | Premium Character Creator</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
   <div class="app-container">
     
     <!-- Left Panel: Preview -->
     <main class="preview-area">
+      <div class="preview-header">
+         <span class="badge">Live Preview</span>
+      </div>
+
       <div class="canvas-container">
         <svg id="avatar-svg" viewBox="0 0 250 800" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -50,48 +56,36 @@
         
             <!-- Head & Neck -->
             <g transform="scale(0.8) translate(30,120)">
-              <!-- Face Shape -->
               <ellipse cx="125" cy="120" rx="60" ry="80" fill="url(#skinShade)" filter="url(#shadow)"/>
               
-              <!-- Hair Styles -->
               <g id="hair-styles">
-                <!-- Hair 1: Default -->
                 <path id="hair-style-1" d="M65,90 Q125,20 185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)" filter="url(#shadow)"/>
-                <!-- Hair 2: Long -->
                 <path id="hair-style-2" d="M60,80 Q125,-10 190,80 L195,180 Q195,200 175,200 L160,200 Q140,200 125,180 Q110,200 90,200 L75,200 Q55,200 55,180 Z" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
-                <!-- Hair 3: Spiky -->
                 <path id="hair-style-3" d="M65,90 L50,70 L80,75 L90,40 L120,70 L135,30 L160,75 L190,50 L185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
-                <!-- Hair 4: Bald/Short -->
                 <path id="hair-style-4" d="M80,50 Q125,20 170,50 Q160,40 125,40 Q90,40 80,50" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
               </g>
 
-              <!-- Eyes Styles -->
               <g id="eye-styles">
-                 <!-- Eyes 1: Default -->
                  <g id="eye-style-1">
                     <ellipse cx="100" cy="110" rx="12" ry="8" fill="white"/>
                     <circle cx="100" cy="110" r="5" fill="#333"/>
                     <ellipse cx="150" cy="110" rx="12" ry="8" fill="white"/>
                     <circle cx="150" cy="110" r="5" fill="#333"/>
                  </g>
-                 <!-- Eyes 2: Cool/Square -->
                  <g id="eye-style-2" style="display:none;">
                     <rect x="88" y="105" width="24" height="12" rx="4" fill="white"/>
                     <rect x="94" y="105" width="12" height="12" fill="#333"/>
                     <rect x="138" y="105" width="24" height="12" rx="4" fill="white"/>
                     <rect x="144" y="105" width="12" height="12" fill="#333"/>
                  </g>
-                 <!-- Eyes 3: Cute/Dot -->
                  <g id="eye-style-3" style="display:none;">
                     <circle cx="100" cy="110" r="6" fill="#333"/>
                     <circle cx="150" cy="110" r="6" fill="#333"/>
                  </g>
               </g>
 
-              <!-- Nose -->
               <path d="M125,120 Q128,135 125,140" stroke="#654321" stroke-width="2" fill="none"/>
               
-              <!-- Mouth Styles -->
               <g id="mouth-styles">
                 <path id="mouth-style-1" d="M110,155 Q125,165 140,155" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/>
                 <path id="mouth-style-2" d="M115,160 Q125,160 135,160" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round" style="display:none;"/>
@@ -99,58 +93,65 @@
               </g>
             </g>
         
-            <!-- Body -->
+            <!-- Body Parts (Gradients Applied) -->
             <rect x="65" y="260" width="120" height="200" rx="40" ry="0" fill="url(#shirtShade)" filter="url(#shadow)"/>
-        
-            <!-- Arms -->
             <rect x="35" y="260" width="30" height="200" rx="20" ry="20" fill="url(#skinShade)" filter="url(#shadow)"/>
             <rect x="35" y="460" width="20" height="30" rx="5" fill="url(#skinShade)" filter="url(#shadow)"/> 
             <rect x="55" y="465" width="8" height="20" rx="4" fill="url(#skinShade)" filter="url(#shadow)"/>
-        
             <rect x="185" y="260" width="30" height="200" rx="20" ry="20" fill="url(#skinShade)" filter="url(#shadow)"/>
             <rect x="195" y="460" width="20" height="30" rx="5" fill="url(#skinShade)" filter="url(#shadow)"/> 
             <rect x="187" y="465" width="8" height="20" rx="4" fill="url(#skinShade)" filter="url(#shadow)"/>
-        
-            <!-- Legs -->
             <rect x="65" y="460" width="50" height="200" rx="0" ry="0" fill="url(#pantsShade)" filter="url(#shadow)"/>
             <rect x="135" y="460" width="50" height="200" rx="0" ry="0" fill="url(#pantsShade)" filter="url(#shadow)"/>
-        
-            <!-- Shoes -->
             <rect x="60" y="660" width="60" height="30" rx="10" ry="10" fill="url(#shoeShade)" filter="url(#shadow)"/>
             <rect x="130" y="660" width="60" height="30" rx="10" ry="10" fill="url(#shoeShade)" filter="url(#shadow)"/>
           </svg>
       </div>
-      <div class="actions">
-        <button id="download-svg-btn" class="btn secondary">Download SVG</button>
-        <button id="download-png-btn" class="btn primary">Download PNG</button>
+
+      <div class="actions mobile-float">
+        <button id="download-svg-btn" class="btn secondary">
+           <i data-lucide="code"></i> <span>SVG</span>
+        </button>
+        <button id="download-png-btn" class="btn primary">
+            <i data-lucide="download"></i> <span>PNG</span>
+        </button>
       </div>
     </main>
 
     <!-- Right Panel: Controls -->
     <aside class="controls-panel">
       <header class="panel-header">
-        <h1>Avatar Studio</h1>
+        <div class="brand">
+           <i data-lucide="user-plus" class="logo"></i>
+           <div class="brand-text">
+              <h1>Avatar Studio</h1>
+              <p>Premium Creator</p>
+           </div>
+        </div>
         <div class="tabs">
-          <button class="tab-btn active" data-tab="styles">Styles</button>
-          <button class="tab-btn" data-tab="colors">Colors</button>
+          <button class="tab-btn active" data-tab="styles">
+             <i data-lucide="palette"></i> Styles
+          </button>
+          <button class="tab-btn" data-tab="colors">
+             <i data-lucide="droplet"></i> Colors
+          </button>
         </div>
       </header>
 
       <div class="controls-scroll">
-        
-        <!-- Styles Tab Content -->
+        <!-- Styles Tab -->
         <div id="styles-content" class="tab-content active">
           <div class="control-group">
-            <label>Hair Style</label>
+            <label><i data-lucide="smile"></i> Hair Style</label>
             <div class="style-options" data-type="hair">
-               <button class="style-btn active" data-id="1">Style 1</button>
-               <button class="style-btn" data-id="2">Style 2</button>
-               <button class="style-btn" data-id="3">Style 3</button>
-               <button class="style-btn" data-id="4">Style 4</button>
+               <button class="style-btn active" data-id="1">Default</button>
+               <button class="style-btn" data-id="2">Classic</button>
+               <button class="style-btn" data-id="3">Spiky</button>
+               <button class="style-btn" data-id="4">Short</button>
             </div>
           </div>
           <div class="control-group">
-            <label>Eyes Style</label>
+            <label><i data-lucide="eye"></i> Eye Style</label>
             <div class="style-options" data-type="eye">
                <button class="style-btn active" data-id="1">Round</button>
                <button class="style-btn" data-id="2">Square</button>
@@ -158,16 +159,16 @@
             </div>
           </div>
           <div class="control-group">
-            <label>Mouth Style</label>
+            <label><i data-lucide="message-square"></i> Mouth</label>
             <div class="style-options" data-type="mouth">
                <button class="style-btn active" data-id="1">Smile</button>
                <button class="style-btn" data-id="2">Flat</button>
-               <button class="style-btn" data-id="3">Surprise</button>
+               <button class="style-btn" data-id="3">Ooh!</button>
             </div>
           </div>
         </div>
 
-        <!-- Colors Tab Content -->
+        <!-- Colors Tab -->
         <div id="colors-content" class="tab-content">
           <div class="control-group">
             <label>Skin Tone</label>
@@ -189,17 +190,12 @@
             <div class="color-options" id="pants-options"></div>
             <input type="color" id="pants-color-picker" value="#636e72">
           </div>
-          <div class="control-group">
-              <label>Shoes Color</label>
-              <div class="color-options" id="shoe-options"></div>
-              <input type="color" id="shoe-color-picker" value="#000000">
-          </div>
         </div>
-
       </div>
     </aside>
 
   </div>
   <script src="main.js"></script>
+  <script>lucide.createIcons();</script>
 </body>
 </html>
