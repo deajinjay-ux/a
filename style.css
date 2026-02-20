@@ -111,7 +111,8 @@ svg {
   letter-spacing: 0.02em;
 }
 
-.btn i { width: 18px; height: 18px; }
+/* Shrunk Action Icons (1/2 size: 18px -> 9px) */
+.btn i { width: 9px; height: 9px; }
 
 .btn.primary { background: var(--grad-primary); color: white; }
 .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4); }
@@ -141,7 +142,8 @@ svg {
     margin-bottom: 1rem;
 }
 
-.brand i.logo { color: var(--accent-color); width: 24px; height: 24px; }
+/* Shrunk Brand Logo (1/2 size: 24px -> 12px) */
+.brand i.logo { color: var(--accent-color); width: 12px; height: 12px; }
 .brand-text h1 { font-size: 1rem; font-weight: 800; }
 .brand-text p { font-size: 0.65rem; color: var(--text-secondary); }
 
@@ -169,7 +171,8 @@ svg {
   gap: 0.4rem;
 }
 
-.tab-btn i { width: 14px; height: 14px; }
+/* Shrunk Tab Icons (1/2 size: 14px -> 7px) */
+.tab-btn i { width: 7px; height: 7px; }
 .tab-btn.active { background: white; color: var(--accent-color); box-shadow: var(--shadow-sm); }
 
 .controls-scroll {
@@ -198,10 +201,10 @@ svg {
   margin-bottom: 0.75rem;
 }
 
-/* SHRUNK LABEL ICONS */
+/* Shrunk Label Icons (1/2 size: 8px -> 4px) */
 .control-group label i { 
-    width: 8px; 
-    height: 8px; 
+    width: 4px; 
+    height: 4px; 
     color: var(--accent-color);
     opacity: 0.7;
 }
@@ -228,10 +231,10 @@ svg {
   gap: 0.4rem;
 }
 
-/* STYLE BUTTON ICONS */
+/* Shrunk Style Icons (1/2 size: 16px -> 8px) */
 .style-btn i {
-    width: 16px;
-    height: 16px;
+    width: 8px;
+    height: 8px;
     color: var(--accent-color);
 }
 

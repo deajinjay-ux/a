@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.tab-btn, .tab-content').forEach(el => el.classList.remove('active'));
             btn.classList.add('active');
-            document.getElementById(`${btn.dataset.tab}-content`).classList.add('active');
+            const target = document.getElementById(`${btn.dataset.tab}-content`);
+            if (target) target.classList.add('active');
         });
     });
 
@@ -24,11 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const type = btn.parentElement.dataset.type;
             const id = btn.dataset.id;
             
-            // UI Update
             btn.parentElement.querySelectorAll('.style-btn').forEach(s => s.classList.remove('active'));
             btn.classList.add('active');
 
-            // SVG Update
             const stylesGroup = document.getElementById(`${type}-styles`);
             if (stylesGroup) {
                 Array.from(stylesGroup.children).forEach(child => {
@@ -75,42 +74,79 @@ document.addEventListener('DOMContentLoaded', () => {
     Object.keys(config).forEach(part => {
         const conf = config[part];
         const container = document.getElementById(conf.optionsContainer);
-        conf.palette.forEach(color => {
-            const swatch = document.createElement('div');
-            swatch.className = 'color-swatch';
-            swatch.style.backgroundColor = color;
-            swatch.addEventListener('click', () => {
-                applyColor(part, color);
-                container.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-                swatch.classList.add('active');
+        if (container) {
+            conf.palette.forEach(color => {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                swatch.style.backgroundColor = color;
+                swatch.addEventListener('click', () => {
+                    applyColor(part, color);
+                    container.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                    swatch.classList.add('active');
+                });
+                container.appendChild(swatch);
             });
-            container.appendChild(swatch);
-        });
-        document.getElementById(conf.picker).addEventListener('input', (e) => applyColor(part, e.target.value));
+        }
+        const picker = document.getElementById(conf.picker);
+        if (picker) {
+            picker.addEventListener('input', (e) => applyColor(part, e.target.value));
+        }
     });
 
-    // --- Downloads ---
-    document.getElementById('download-svg-btn').addEventListener('click', () => {
-        const svgData = document.getElementById('avatar-svg').outerHTML;
-        const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
+    // --- Fixed Downloads ---
+    function triggerDownload(url, filename) {
         const link = document.createElement('a');
-        link.href = url; link.download = "avatar.svg"; link.click();
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    document.getElementById('download-svg-btn').addEventListener('click', () => {
+        const svg = document.getElementById('avatar-svg');
+        const serializer = new XMLSerializer();
+        let source = serializer.serializeToString(svg);
+
+        // Ensure namespace
+        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        if (!source.match(/^<svg[^>]+xmlns\:xlink="http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+        }
+
+        const svgBlob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(svgBlob);
+        triggerDownload(url, "avatar.svg");
+        setTimeout(() => URL.revokeObjectURL(url), 100);
     });
 
     document.getElementById('download-png-btn').addEventListener('click', () => {
         const svg = document.getElementById('avatar-svg');
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const svgData = new XMLSerializer().serializeToString(svg);
+        const serializer = new XMLSerializer();
+        const svgData = serializer.serializeToString(svg);
         const img = new Image();
-        canvas.width = 1000; canvas.height = 3200;
+        
+        // High quality scale
+        const scale = 4;
+        const width = 250 * scale;
+        const height = 800 * scale;
+
         const svgBlob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
         const url = URL.createObjectURL(svgBlob);
+
         img.onload = function() {
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL("image/png"); link.download = "avatar.png"; link.click();
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            const pngUrl = canvas.toDataURL("image/png");
+            triggerDownload(pngUrl, "avatar.png");
             URL.revokeObjectURL(url);
         };
         img.src = url;
