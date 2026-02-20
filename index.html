@@ -15,69 +15,98 @@
       <div class="canvas-container">
         <svg id="avatar-svg" viewBox="0 0 250 800" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <!-- Skin Gradient -->
+              <!-- Gradients -->
               <radialGradient id="skinShade" cx="50%" cy="30%" r="70%">
                 <stop offset="0%" stop-color="#F1C27D" id="skin-stop-1"/>
                 <stop offset="70%" stop-color="#E0AC69" id="skin-stop-2"/>
                 <stop offset="100%" stop-color="#8D5524" id="skin-stop-3"/>
               </radialGradient>
         
-              <!-- Hair Gradient -->
               <linearGradient id="hairShade" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#2d3436" id="hair-stop-1"/>
                 <stop offset="50%" stop-color="#3d3d3d" id="hair-stop-2"/>
                 <stop offset="100%" stop-color="#1a1a1a" id="hair-stop-3"/>
               </linearGradient>
         
-              <!-- Shirt Gradient -->
               <linearGradient id="shirtShade" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="#4834d4" id="shirt-stop-1"/>
                 <stop offset="100%" stop-color="#2c2c54" id="shirt-stop-2"/>
               </linearGradient>
         
-              <!-- Pants Gradient -->
               <linearGradient id="pantsShade" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="#636e72" id="pants-stop-1"/>
                 <stop offset="100%" stop-color="#2d3436" id="pants-stop-2"/>
               </linearGradient>
         
-              <!-- Shoes Gradient -->
               <linearGradient id="shoeShade" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#000" id="shoe-stop-1"/>
                 <stop offset="100%" stop-color="#444" id="shoe-stop-2"/>
               </linearGradient>
         
-              <!-- Shadows -->
               <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
                 <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(0,0,0,0.4)"/>
               </filter>
             </defs>
         
-            <!-- Head Group -->
+            <!-- Head & Neck -->
             <g transform="scale(0.8) translate(30,120)">
+              <!-- Face Shape -->
               <ellipse cx="125" cy="120" rx="60" ry="80" fill="url(#skinShade)" filter="url(#shadow)"/>
-              <path d="M65,90 Q125,20 185,90 Q170,30 125,30 Q80,30 65,90"
-                    fill="url(#hairShade)" filter="url(#shadow)"/>
-              <path d="M80,60 Q125,40 170,60" stroke="rgba(255,255,255,0.3)" stroke-width="6" fill="none"/>
-              <ellipse cx="100" cy="110" rx="12" ry="8" fill="white"/>
-              <circle cx="100" cy="110" r="5" fill="#333"/>
-              <circle cx="97" cy="107" r="2" fill="white"/>
-              <ellipse cx="150" cy="110" rx="12" ry="8" fill="white"/>
-              <circle cx="150" cy="110" r="5" fill="#333"/>
-              <circle cx="147" cy="107" r="2" fill="white"/>
+              
+              <!-- Hair Styles -->
+              <g id="hair-styles">
+                <!-- Hair 1: Default -->
+                <path id="hair-style-1" d="M65,90 Q125,20 185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)" filter="url(#shadow)"/>
+                <!-- Hair 2: Long -->
+                <path id="hair-style-2" d="M60,80 Q125,-10 190,80 L195,180 Q195,200 175,200 L160,200 Q140,200 125,180 Q110,200 90,200 L75,200 Q55,200 55,180 Z" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
+                <!-- Hair 3: Spiky -->
+                <path id="hair-style-3" d="M65,90 L50,70 L80,75 L90,40 L120,70 L135,30 L160,75 L190,50 L185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
+                <!-- Hair 4: Bald/Short -->
+                <path id="hair-style-4" d="M80,50 Q125,20 170,50 Q160,40 125,40 Q90,40 80,50" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
+              </g>
+
+              <!-- Eyes Styles -->
+              <g id="eye-styles">
+                 <!-- Eyes 1: Default -->
+                 <g id="eye-style-1">
+                    <ellipse cx="100" cy="110" rx="12" ry="8" fill="white"/>
+                    <circle cx="100" cy="110" r="5" fill="#333"/>
+                    <ellipse cx="150" cy="110" rx="12" ry="8" fill="white"/>
+                    <circle cx="150" cy="110" r="5" fill="#333"/>
+                 </g>
+                 <!-- Eyes 2: Cool/Square -->
+                 <g id="eye-style-2" style="display:none;">
+                    <rect x="88" y="105" width="24" height="12" rx="4" fill="white"/>
+                    <rect x="94" y="105" width="12" height="12" fill="#333"/>
+                    <rect x="138" y="105" width="24" height="12" rx="4" fill="white"/>
+                    <rect x="144" y="105" width="12" height="12" fill="#333"/>
+                 </g>
+                 <!-- Eyes 3: Cute/Dot -->
+                 <g id="eye-style-3" style="display:none;">
+                    <circle cx="100" cy="110" r="6" fill="#333"/>
+                    <circle cx="150" cy="110" r="6" fill="#333"/>
+                 </g>
+              </g>
+
+              <!-- Nose -->
               <path d="M125,120 Q128,135 125,140" stroke="#654321" stroke-width="2" fill="none"/>
-              <path d="M110,155 Q125,165 140,155" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/>
+              
+              <!-- Mouth Styles -->
+              <g id="mouth-styles">
+                <path id="mouth-style-1" d="M110,155 Q125,165 140,155" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path id="mouth-style-2" d="M115,160 Q125,160 135,160" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round" style="display:none;"/>
+                <circle id="mouth-style-3" cx="125" cy="160" r="6" fill="#333" style="display:none;"/>
+              </g>
             </g>
         
             <!-- Body -->
             <rect x="65" y="260" width="120" height="200" rx="40" ry="0" fill="url(#shirtShade)" filter="url(#shadow)"/>
         
-            <!-- Left Arm -->
+            <!-- Arms -->
             <rect x="35" y="260" width="30" height="200" rx="20" ry="20" fill="url(#skinShade)" filter="url(#shadow)"/>
             <rect x="35" y="460" width="20" height="30" rx="5" fill="url(#skinShade)" filter="url(#shadow)"/> 
             <rect x="55" y="465" width="8" height="20" rx="4" fill="url(#skinShade)" filter="url(#shadow)"/>
         
-            <!-- Right Arm -->
             <rect x="185" y="260" width="30" height="200" rx="20" ry="20" fill="url(#skinShade)" filter="url(#shadow)"/>
             <rect x="195" y="460" width="20" height="30" rx="5" fill="url(#skinShade)" filter="url(#shadow)"/> 
             <rect x="187" y="465" width="8" height="20" rx="4" fill="url(#skinShade)" filter="url(#shadow)"/>
@@ -92,14 +121,8 @@
           </svg>
       </div>
       <div class="actions">
-        <button id="download-svg-btn" class="btn secondary">
-           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-           Download SVG
-        </button>
-        <button id="download-png-btn" class="btn primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Download PNG
-        </button>
+        <button id="download-svg-btn" class="btn secondary">Download SVG</button>
+        <button id="download-png-btn" class="btn primary">Download PNG</button>
       </div>
     </main>
 
@@ -107,48 +130,70 @@
     <aside class="controls-panel">
       <header class="panel-header">
         <h1>Avatar Studio</h1>
-        <p>Customize your look</p>
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="styles">Styles</button>
+          <button class="tab-btn" data-tab="colors">Colors</button>
+        </div>
       </header>
 
       <div class="controls-scroll">
         
-        <!-- Skin Color -->
-        <div class="control-group">
-          <label>Skin Tone</label>
-          <div class="color-options" id="skin-options">
-             <!-- Generated by JS -->
+        <!-- Styles Tab Content -->
+        <div id="styles-content" class="tab-content active">
+          <div class="control-group">
+            <label>Hair Style</label>
+            <div class="style-options" data-type="hair">
+               <button class="style-btn active" data-id="1">Style 1</button>
+               <button class="style-btn" data-id="2">Style 2</button>
+               <button class="style-btn" data-id="3">Style 3</button>
+               <button class="style-btn" data-id="4">Style 4</button>
+            </div>
           </div>
-          <input type="color" id="skin-color-picker" value="#F1C27D">
-        </div>
-
-        <!-- Hair Color -->
-        <div class="control-group">
-          <label>Hair Color</label>
-          <div class="color-options" id="hair-options">
-             <!-- Generated by JS -->
+          <div class="control-group">
+            <label>Eyes Style</label>
+            <div class="style-options" data-type="eye">
+               <button class="style-btn active" data-id="1">Round</button>
+               <button class="style-btn" data-id="2">Square</button>
+               <button class="style-btn" data-id="3">Dot</button>
+            </div>
           </div>
-          <input type="color" id="hair-color-picker" value="#2d3436">
+          <div class="control-group">
+            <label>Mouth Style</label>
+            <div class="style-options" data-type="mouth">
+               <button class="style-btn active" data-id="1">Smile</button>
+               <button class="style-btn" data-id="2">Flat</button>
+               <button class="style-btn" data-id="3">Surprise</button>
+            </div>
+          </div>
         </div>
 
-        <!-- Shirt Color -->
-        <div class="control-group">
-          <label>Shirt Color</label>
-          <div class="color-options" id="shirt-options"></div>
-          <input type="color" id="shirt-color-picker" value="#4834d4">
-        </div>
-
-        <!-- Pants Color -->
-        <div class="control-group">
+        <!-- Colors Tab Content -->
+        <div id="colors-content" class="tab-content">
+          <div class="control-group">
+            <label>Skin Tone</label>
+            <div class="color-options" id="skin-options"></div>
+            <input type="color" id="skin-color-picker" value="#F1C27D">
+          </div>
+          <div class="control-group">
+            <label>Hair Color</label>
+            <div class="color-options" id="hair-options"></div>
+            <input type="color" id="hair-color-picker" value="#2d3436">
+          </div>
+          <div class="control-group">
+            <label>Shirt Color</label>
+            <div class="color-options" id="shirt-options"></div>
+            <input type="color" id="shirt-color-picker" value="#4834d4">
+          </div>
+          <div class="control-group">
             <label>Pants Color</label>
             <div class="color-options" id="pants-options"></div>
             <input type="color" id="pants-color-picker" value="#636e72">
-        </div>
-
-        <!-- Shoes Color -->
-        <div class="control-group">
-            <label>Shoes Color</label>
-            <div class="color-options" id="shoe-options"></div>
-            <input type="color" id="shoe-color-picker" value="#000000">
+          </div>
+          <div class="control-group">
+              <label>Shoes Color</label>
+              <div class="color-options" id="shoe-options"></div>
+              <input type="color" id="shoe-color-picker" value="#000000">
+          </div>
         </div>
 
       </div>
