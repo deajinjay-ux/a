@@ -98,8 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Randomize Styles
         ['hair', 'eye', 'mouth'].forEach(type => {
             const options = document.querySelectorAll(`.style-options[data-type="${type}"] .style-btn`);
-            const randomIdx = Math.floor(Math.random() * options.length);
-            options[randomIdx].click();
+            if (options.length > 0) {
+                const randomIdx = Math.floor(Math.random() * options.length);
+                options[randomIdx].click();
+            }
         });
         // Randomize Colors
         Object.keys(config).forEach(part => {
@@ -119,6 +121,22 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(link);
     }
 
+    // SVG Download
+    document.getElementById('download-svg-btn').addEventListener('click', () => {
+        const svg = document.getElementById('avatar-svg');
+        const serializer = new XMLSerializer();
+        let source = serializer.serializeToString(svg);
+
+        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        const svgBlob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(svgBlob);
+        triggerDownload(url, "avatar.svg");
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+    });
+
+    // PNG Download
     document.getElementById('download-png-btn').addEventListener('click', () => {
         const svg = document.getElementById('avatar-svg');
         const serializer = new XMLSerializer();

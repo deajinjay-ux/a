@@ -9,7 +9,6 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-  <!-- Image Style Header -->
   <header class="app-header">
     <div class="logo-area">
       <i data-lucide="smile"></i>
@@ -19,15 +18,18 @@
       <button class="btn-header random">
         <i data-lucide="shuffle"></i> <span>랜덤</span>
       </button>
+      <button id="download-svg-btn" class="btn-header download secondary">
+        <i data-lucide="code"></i> <span>SVG</span>
+      </button>
       <button id="download-png-btn" class="btn-header download">
-        <i data-lucide="download"></i> <span>다운로드 (PNG)</span>
+        <i data-lucide="download"></i> <span>PNG</span>
       </button>
     </div>
   </header>
 
   <div class="app-container">
     
-    <!-- Left: Preview -->
+    <!-- Left: Preview (50%) -->
     <main class="preview-area">
       <div class="canvas-container">
         <svg id="avatar-svg" viewBox="0 0 250 800" xmlns="http://www.w3.org/2000/svg">
@@ -113,60 +115,45 @@
       </div>
     </main>
 
-    <!-- Right: Controls -->
+    <!-- Right: Controls (50%) -->
     <aside class="controls-panel">
       <nav class="panel-tabs">
-        <button class="tab-btn active" data-tab="face-hair">얼굴 & 헤어</button>
+        <button class="tab-btn active" data-tab="face">얼굴</button>
+        <button class="tab-btn" data-tab="hair">헤어</button>
         <button class="tab-btn" data-tab="skin">피부색</button>
         <button class="tab-btn" data-tab="clothes">옷 & 신발</button>
       </nav>
 
       <div class="controls-scroll">
-        <!-- Face & Hair Tab -->
-        <div id="face-hair-content" class="tab-content active">
+        <!-- Face Tab -->
+        <div id="face-content" class="tab-content active">
           <div class="control-group">
             <label>눈 모양</label>
             <div class="style-options" data-type="eye">
-               <button class="style-btn active" data-id="1">
-                 <i data-lucide="eye"></i> <span>기본</span>
-               </button>
-               <button class="style-btn" data-id="2">
-                 <i data-lucide="square"></i> <span>스퀘어</span>
-               </button>
-               <button class="style-btn" data-id="3">
-                 <i data-lucide="circle"></i> <span>도트</span>
-               </button>
+               <button class="style-btn active" data-id="1"><i data-lucide="eye"></i> <span>기본</span></button>
+               <button class="style-btn" data-id="2"><i data-lucide="square"></i> <span>스퀘어</span></button>
+               <button class="style-btn" data-id="3"><i data-lucide="circle"></i> <span>도트</span></button>
             </div>
           </div>
           <div class="control-group">
             <label>입 모양</label>
             <div class="style-options" data-type="mouth">
-               <button class="style-btn active" data-id="1">
-                 <i data-lucide="smile"></i> <span>미소</span>
-               </button>
-               <button class="style-btn" data-id="2">
-                 <i data-lucide="meh"></i> <span>무표정</span>
-               </button>
-               <button class="style-btn" data-id="3">
-                 <i data-lucide="circle"></i> <span>놀람</span>
-               </button>
+               <button class="style-btn active" data-id="1"><i data-lucide="smile"></i> <span>미소</span></button>
+               <button class="style-btn" data-id="2"><i data-lucide="meh"></i> <span>무표정</span></button>
+               <button class="style-btn" data-id="3"><i data-lucide="circle"></i> <span>놀람</span></button>
             </div>
           </div>
+        </div>
+
+        <!-- Hair Tab -->
+        <div id="hair-content" class="tab-content">
           <div class="control-group">
             <label>헤어 스타일</label>
             <div class="style-options" data-type="hair">
-               <button class="style-btn active" data-id="1">
-                 <i data-lucide="user"></i> <span>기본</span>
-               </button>
-               <button class="style-btn" data-id="2">
-                 <i data-lucide="star"></i> <span>클래식</span>
-               </button>
-               <button class="style-btn" data-id="3">
-                 <i data-lucide="zap"></i> <span>스파이키</span>
-               </button>
-               <button class="style-btn" data-id="4">
-                 <i data-lucide="scissors"></i> <span>숏컷</span>
-               </button>
+               <button class="style-btn active" data-id="1"><i data-lucide="user"></i> <span>기본</span></button>
+               <button class="style-btn" data-id="2"><i data-lucide="star"></i> <span>클래식</span></button>
+               <button class="style-btn" data-id="3"><i data-lucide="zap"></i> <span>스파이키</span></button>
+               <button class="style-btn" data-id="4"><i data-lucide="scissors"></i> <span>숏컷</span></button>
             </div>
           </div>
           <div class="control-group">
