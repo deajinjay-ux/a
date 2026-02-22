@@ -5,8 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         skin: { stops: ['skin-stop-1', 'skin-stop-2', 'skin-stop-3'], picker: 'skin-color-picker', optionsContainer: 'skin-options', palette: ['#F1C27D', '#FFDCB1', '#E0AC69', '#C68642', '#8D5524', '#5C3A1E'] },
         hair: { stops: ['hair-stop-1', 'hair-stop-2', 'hair-stop-3'], picker: 'hair-color-picker', optionsContainer: 'hair-options', palette: ['#2d3436', '#636e72', '#b2bec3', '#d63031', '#e17055', '#fdcb6e', '#6c5ce7', '#0984e3'] },
         shirt: { stops: ['shirt-stop-1', 'shirt-stop-2'], picker: 'shirt-color-picker', optionsContainer: 'shirt-options', palette: ['#4834d4', '#686de0', '#e056fd', '#be2edd', '#eb4d4b', '#f0932b', '#badc58', '#7ed6df', '#22a6b3'] },
-        pants: { stops: ['pants-stop-1', 'pants-stop-2'], picker: 'pants-color-picker', optionsContainer: 'pants-options', palette: ['#636e72', '#2d3436', '#0984e3', '#74b9ff', '#a29bfe', '#dfe6e9', '#55efc4', '#00b894'] },
-        shoes: { stops: ['shoe-stop-1', 'shoe-stop-2'], picker: 'shoe-color-picker', optionsContainer: 'shoe-options', palette: ['#000000', '#ffffff', '#d63031', '#0984e3', '#fdcb6e'] }
+        pants: { stops: ['pants-stop-1', 'pants-stop-2'], picker: 'pants-color-picker', optionsContainer: 'pants-options', palette: ['#636e72', '#2d3436', '#0984e3', '#74b9ff', '#a29bfe', '#dfe6e9', '#55efc4', '#00b894'] }
     };
 
     // --- Tab Switching ---
@@ -75,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const conf = config[part];
         const container = document.getElementById(conf.optionsContainer);
         if (container) {
+            // Clear existing swatches if any
+            container.innerHTML = '';
             conf.palette.forEach(color => {
                 const swatch = document.createElement('div');
                 swatch.className = 'color-swatch';
