@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const conf = config[part];
         const container = document.getElementById(conf.optionsContainer);
         if (container) {
-            // Clear existing swatches if any
             container.innerHTML = '';
             conf.palette.forEach(color => {
                 const swatch = document.createElement('div');
@@ -94,6 +93,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Randomize function for Header Button
+    document.querySelector('.btn-header.random').addEventListener('click', () => {
+        // Randomize Styles
+        ['hair', 'eye', 'mouth'].forEach(type => {
+            const options = document.querySelectorAll(`.style-options[data-type="${type}"] .style-btn`);
+            const randomIdx = Math.floor(Math.random() * options.length);
+            options[randomIdx].click();
+        });
+        // Randomize Colors
+        Object.keys(config).forEach(part => {
+            const palette = config[part].palette;
+            const randomColor = palette[Math.floor(Math.random() * palette.length)];
+            applyColor(part, randomColor);
+        });
+    });
+
     // --- Fixed Downloads ---
     function triggerDownload(url, filename) {
         const link = document.createElement('a');
@@ -104,32 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(link);
     }
 
-    document.getElementById('download-svg-btn').addEventListener('click', () => {
-        const svg = document.getElementById('avatar-svg');
-        const serializer = new XMLSerializer();
-        let source = serializer.serializeToString(svg);
-
-        // Ensure namespace
-        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
-            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-        }
-        if (!source.match(/^<svg[^>]+xmlns\:xlink="http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
-            source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
-        }
-
-        const svgBlob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
-        const url = URL.createObjectURL(svgBlob);
-        triggerDownload(url, "avatar.svg");
-        setTimeout(() => URL.revokeObjectURL(url), 100);
-    });
-
     document.getElementById('download-png-btn').addEventListener('click', () => {
         const svg = document.getElementById('avatar-svg');
         const serializer = new XMLSerializer();
         const svgData = serializer.serializeToString(svg);
         const img = new Image();
         
-        // High quality scale
         const scale = 4;
         const width = 250 * scale;
         const height = 800 * scale;

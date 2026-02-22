@@ -3,20 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Avatar Studio Pro | Luxury Character Creator</title>
+  <title>Avatar Studio Pro | Professional Character Creator</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+  <!-- Image Style Header -->
+  <header class="app-header">
+    <div class="logo-area">
+      <i data-lucide="smile"></i>
+      <span>Avatar Studio</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn-header random">
+        <i data-lucide="shuffle"></i> <span>랜덤</span>
+      </button>
+      <button id="download-png-btn" class="btn-header download">
+        <i data-lucide="download"></i> <span>다운로드 (PNG)</span>
+      </button>
+    </div>
+  </header>
+
   <div class="app-container">
     
-    <!-- Left Panel: Preview -->
+    <!-- Left: Preview -->
     <main class="preview-area">
-      <div class="preview-header">
-         <span class="badge">Exclusive Edition</span>
-      </div>
-
       <div class="canvas-container">
         <svg id="avatar-svg" viewBox="0 0 250 800" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -48,7 +60,7 @@
               </linearGradient>
         
               <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(0,0,0,0.4)"/>
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(0,0,0,0.1)"/>
               </filter>
             </defs>
         
@@ -99,85 +111,89 @@
             <rect x="130" y="660" width="60" height="30" rx="10" ry="10" fill="url(#shoeShade)" filter="url(#shadow)"/>
           </svg>
       </div>
-
-      <div class="actions mobile-float">
-        <button id="download-svg-btn" class="btn secondary">
-           <i data-lucide="code"></i> <span>SVG</span>
-        </button>
-        <button id="download-png-btn" class="btn primary">
-            <i data-lucide="download"></i> <span>PNG</span>
-        </button>
-      </div>
     </main>
 
-    <!-- Right Panel: Controls -->
+    <!-- Right: Controls -->
     <aside class="controls-panel">
-      <header class="panel-header">
-        <div class="brand">
-           <i data-lucide="crown" class="logo"></i>
-           <div class="brand-text">
-              <h1>Studio Pro</h1>
-           </div>
-        </div>
-        <div class="tabs">
-          <button class="tab-btn active" data-tab="styles">
-             <i data-lucide="palette"></i> Style
-          </button>
-          <button class="tab-btn" data-tab="colors">
-             <i data-lucide="droplet"></i> Color
-          </button>
-        </div>
-      </header>
+      <nav class="panel-tabs">
+        <button class="tab-btn active" data-tab="face-hair">얼굴 & 헤어</button>
+        <button class="tab-btn" data-tab="skin">피부색</button>
+        <button class="tab-btn" data-tab="clothes">옷 & 신발</button>
+      </nav>
 
       <div class="controls-scroll">
-        <!-- Strictly Styles -->
-        <div id="styles-content" class="tab-content active">
+        <!-- Face & Hair Tab -->
+        <div id="face-hair-content" class="tab-content active">
           <div class="control-group">
-            <label><i data-lucide="smile"></i> Hair Style</label>
-            <div class="style-options" data-type="hair">
-               <button class="style-btn active" data-id="1"><i data-lucide="user"></i> Default</button>
-               <button class="style-btn" data-id="2"><i data-lucide="star"></i> Classic</button>
-               <button class="style-btn" data-id="3"><i data-lucide="zap"></i> Spiky</button>
-               <button class="style-btn" data-id="4"><i data-lucide="scissors"></i> Short</button>
-            </div>
-          </div>
-          <div class="control-group">
-            <label><i data-lucide="eye"></i> Eye Style</label>
+            <label>눈 모양</label>
             <div class="style-options" data-type="eye">
-               <button class="style-btn active" data-id="1"><i data-lucide="circle"></i> Round</button>
-               <button class="style-btn" data-id="2"><i data-lucide="square"></i> Square</button>
-               <button class="style-btn" data-id="3"><i data-lucide="dot-circle"></i> Dot</button>
+               <button class="style-btn active" data-id="1">
+                 <i data-lucide="eye"></i> <span>기본</span>
+               </button>
+               <button class="style-btn" data-id="2">
+                 <i data-lucide="square"></i> <span>스퀘어</span>
+               </button>
+               <button class="style-btn" data-id="3">
+                 <i data-lucide="circle"></i> <span>도트</span>
+               </button>
             </div>
           </div>
           <div class="control-group">
-            <label><i data-lucide="message-square"></i> Mouth</label>
+            <label>입 모양</label>
             <div class="style-options" data-type="mouth">
-               <button class="style-btn active" data-id="1"><i data-lucide="smile"></i> Smile</button>
-               <button class="style-btn" data-id="2"><i data-lucide="minus"></i> Flat</button>
-               <button class="style-btn" data-id="3"><i data-lucide="circle-dot"></i> Ooh!</button>
+               <button class="style-btn active" data-id="1">
+                 <i data-lucide="smile"></i> <span>미소</span>
+               </button>
+               <button class="style-btn" data-id="2">
+                 <i data-lucide="meh"></i> <span>무표정</span>
+               </button>
+               <button class="style-btn" data-id="3">
+                 <i data-lucide="circle"></i> <span>놀람</span>
+               </button>
             </div>
           </div>
-        </div>
-
-        <!-- Strictly Colors -->
-        <div id="colors-content" class="tab-content">
           <div class="control-group">
-            <label><i data-lucide="user"></i> Skin Tone</label>
-            <div class="color-options" id="skin-options"></div>
-            <input type="color" id="skin-color-picker" value="#F1C27D">
+            <label>헤어 스타일</label>
+            <div class="style-options" data-type="hair">
+               <button class="style-btn active" data-id="1">
+                 <i data-lucide="user"></i> <span>기본</span>
+               </button>
+               <button class="style-btn" data-id="2">
+                 <i data-lucide="star"></i> <span>클래식</span>
+               </button>
+               <button class="style-btn" data-id="3">
+                 <i data-lucide="zap"></i> <span>스파이키</span>
+               </button>
+               <button class="style-btn" data-id="4">
+                 <i data-lucide="scissors"></i> <span>숏컷</span>
+               </button>
+            </div>
           </div>
           <div class="control-group">
-            <label><i data-lucide="scissors"></i> Hair Color</label>
+            <label>머리 색상</label>
             <div class="color-options" id="hair-options"></div>
             <input type="color" id="hair-color-picker" value="#2d3436">
           </div>
+        </div>
+
+        <!-- Skin Tone Tab -->
+        <div id="skin-content" class="tab-content">
           <div class="control-group">
-            <label><i data-lucide="shirt"></i> Shirt Color</label>
+            <label>피부색 선택</label>
+            <div class="color-options" id="skin-options"></div>
+            <input type="color" id="skin-color-picker" value="#F1C27D">
+          </div>
+        </div>
+
+        <!-- Clothes & Shoes Tab -->
+        <div id="clothes-content" class="tab-content">
+          <div class="control-group">
+            <label>상의 색상</label>
             <div class="color-options" id="shirt-options"></div>
             <input type="color" id="shirt-color-picker" value="#4834d4">
           </div>
           <div class="control-group">
-            <label><i data-lucide="layers"></i> Pants Color</label>
+            <label>하의 색상</label>
             <div class="color-options" id="pants-options"></div>
             <input type="color" id="pants-color-picker" value="#636e72">
           </div>
