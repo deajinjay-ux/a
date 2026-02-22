@@ -245,7 +245,7 @@ input[type="color"] {
 }
 
 @media (min-width: 801px) {
-  .preview-area { flex: 0 0 45%; }
+  .preview-area { flex: 0 0 72.5%; }
   .canvas-container { max-width: 280px; }
   .mobile-float { flex-direction: row; position: relative; bottom: auto; }
 }
