@@ -28,6 +28,11 @@ body {
   letter-spacing: -0.01em;
 }
 
+/* Hide ALL icons globally as requested */
+i {
+    display: none !important;
+}
+
 .app-container {
   display: flex;
   flex-direction: row; /* Avatar Left, Menu Right */
@@ -43,7 +48,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem;
+  padding: 0.5rem;
   position: relative;
   border-right: 1px solid var(--border-color);
 }
@@ -69,9 +74,9 @@ body {
 
 .canvas-container {
   width: 100%;
-  max-width: 280px;
+  max-width: 260px;
   filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));
-  margin-bottom: 3.5rem;
+  margin-bottom: 3rem;
 }
 
 svg {
@@ -89,7 +94,7 @@ svg {
   gap: 0.4rem;
   width: 100%;
   position: absolute;
-  bottom: 1rem;
+  bottom: 0.75rem;
   z-index: 100;
 }
 
@@ -104,8 +109,6 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.3rem;
-  transition: all 0.3s ease;
   text-transform: uppercase;
   color: white;
 }
@@ -117,10 +120,7 @@ svg {
     border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Icons within buttons - 1/10 Size */
-.btn i { transform: scale(0.1); }
-
-/* --- Controls Panel (Right Side) --- */
+/* --- Controls Panel (Right Side - Text Only) --- */
 .controls-panel {
   flex: 0 0 50%;
   background-color: var(--panel-bg);
@@ -138,12 +138,8 @@ svg {
 .brand {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
     margin-bottom: 0.5rem;
 }
-
-/* Reduced logo size - 1/10 */
-.brand i.logo { transform: scale(0.1); }
 
 .brand-text h1 { font-size: 0.8rem; font-weight: 800; color: white; }
 
@@ -168,11 +164,7 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.3rem;
 }
-
-/* Reduced tab icons - 1/10 */
-.tab-btn i { transform: scale(0.1); }
 
 .tab-btn.active { 
     background: rgba(255,255,255,0.1); 
@@ -187,20 +179,15 @@ svg {
 
 .controls-scroll::-webkit-scrollbar { width: 3px; }
 
-.control-group { margin-bottom: 1rem; }
+.control-group { margin-bottom: 0.75rem; }
 .control-group label {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
+  display: block;
   font-size: 0.6rem;
   font-weight: 800;
   text-transform: uppercase;
   color: var(--text-secondary);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
-
-/* Reduced label icons - 1/10 */
-.control-group label i { transform: scale(0.1); color: #ec4899; }
 
 .style-options {
   display: grid;
@@ -209,7 +196,7 @@ svg {
 }
 
 .style-btn {
-  padding: 0.4rem 0.3rem;
+  padding: 0.4rem;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border-color);
   border-radius: 0.3rem;
@@ -220,11 +207,7 @@ svg {
   align-items: center;
   justify-content: center;
   min-height: 28px;
-  gap: 0.3rem;
 }
-
-/* Reduced style icons - 1/10 */
-.style-btn i { transform: scale(0.1); }
 
 .style-btn.active { 
     background: var(--grad-premium);
@@ -232,7 +215,7 @@ svg {
     border: none;
 }
 
-.color-options { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
+.color-options { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.4rem; }
 .color-swatch { 
     width: 1.5rem;
     height: 1.5rem;
@@ -258,7 +241,7 @@ input[type="color"] {
     .control-group label { font-size: 0.75rem; }
     .style-options { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
     .style-btn { font-size: 0.85rem; padding: 0.8rem 0.5rem; min-height: 40px; }
-    .btn { font-size: 0.8rem; min-width: 120px; flex-direction: row; }
+    .btn { font-size: 0.8rem; min-width: 120px; }
     .mobile-float { flex-direction: row; width: 95%; left: 2.5%; right: 2.5%; bottom: 2rem; gap: 1rem; }
     .canvas-container { max-width: 350px; }
 }
