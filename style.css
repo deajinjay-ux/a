@@ -32,9 +32,9 @@ body {
   width: 100vw;
 }
 
-/* Preview Area */
+/* Preview Area - Adjusted to 50% */
 .preview-area {
-  flex: 0 0 58.75%; /* Reduced to make menu ~10% larger (from 37.5% to 41.25%) */
+  flex: 0 0 50%; 
   background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
   display: flex;
   flex-direction: column;
@@ -52,9 +52,9 @@ body {
 
 .badge {
     background: var(--grad-premium);
-    padding: 0.6rem 1.4rem;
+    padding: 0.65rem 1.5rem;
     border-radius: 2rem;
-    font-size: 0.9rem; 
+    font-size: 1rem; 
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -64,66 +64,66 @@ body {
 
 .canvas-container {
   width: 100%;
-  max-width: 300px; 
+  max-width: 250px; 
   filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.2));
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 svg {
   width: 100%;
   height: auto;
-  max-height: 50vh;
+  max-height: 45vh;
   overflow: visible;
 }
 
-/* Action Buttons - MOVED HIGHER */
+/* Action Buttons - MOVED HIGHER & HALVED SIZE */
 .mobile-float {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 1.2rem;
-  width: 94%;
+  gap: 1rem;
+  width: 90%;
   position: absolute;
-  bottom: 6rem; /* Moved up */
-  left: 3%;
-  right: 3%;
+  bottom: 15rem; /* Moved up even higher */
+  left: 5%;
+  right: 5%;
   z-index: 100;
 }
 
 .btn {
   width: auto;
-  min-width: 140px; 
-  padding: 1.1rem 2rem; 
-  border-radius: 3.5rem;
+  min-width: 70px; /* Halved from 140px */
+  padding: 0.55rem 1rem; /* Halved padding */
+  border-radius: 2rem;
   font-weight: 800;
-  font-size: 1.3rem; 
+  font-size: 0.65rem; /* Halved font size */
   cursor: pointer;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.7rem;
+  gap: 0.4rem;
   transition: all 0.3s ease;
   text-transform: uppercase;
   color: white;
 }
 
-.btn i { width: 28px; height: 28px; } 
+.btn i { width: 14px; height: 14px; } /* Halved icon size */
 
 .btn.primary { 
     background: var(--grad-premium);
-    box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
 }
 
 .btn.secondary { 
     background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.2);
 }
 
-/* Controls Panel - ANOTHER 10% LARGER */
+/* Controls Panel - NOW 50% WIDTH */
 .controls-panel {
-  flex: 1; 
+  flex: 0 0 50%; 
   background-color: var(--panel-bg);
   display: flex;
   flex-direction: column;
@@ -131,97 +131,97 @@ svg {
 }
 
 .panel-header {
-  padding: 2rem 1.7rem; 
+  padding: 2.2rem 1.9rem; 
 }
 
 .brand {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    margin-bottom: 1.2rem;
+    gap: 1rem;
+    margin-bottom: 1.3rem;
 }
 
-.brand i.logo { color: #ec4899; width: 24px; height: 24px; } 
-.brand-text h1 { font-size: 1.5rem; font-weight: 800; color: white; } 
+.brand i.logo { color: #ec4899; width: 28px; height: 28px; } 
+.brand-text h1 { font-size: 1.65rem; font-weight: 800; color: white; } 
 
 .tabs {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.6rem;
   background: rgba(0,0,0,0.2);
-  padding: 0.4rem;
-  border-radius: 0.85rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
 }
 
 .tab-btn {
   flex: 1;
-  padding: 0.85rem;
+  padding: 1rem;
   border: none;
   background: none;
   font-weight: 700;
-  font-size: 1.05rem; 
+  font-size: 1.15rem; 
   color: var(--text-secondary);
-  border-radius: 0.7rem;
+  border-radius: 0.8rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
-.tab-btn i { width: 18px; height: 18px; }
+.tab-btn i { width: 20px; height: 20px; }
 .tab-btn.active { background: rgba(255,255,255,0.1); color: white; }
 
 .controls-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 1.7rem; 
+  padding: 1.9rem; 
 }
 
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-.control-group { margin-bottom: 2rem; }
+.control-group { margin-bottom: 2.2rem; }
 .control-group label {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem; 
+  gap: 0.6rem;
+  font-size: 1.1rem; 
   font-weight: 800;
   text-transform: uppercase;
   color: var(--text-secondary);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.4rem;
 }
 
 /* LABEL ICONS SCALED UP */
 .control-group label i { 
-    width: 16px; 
-    height: 16px; 
+    width: 18px; 
+    height: 18px; 
     color: #ec4899;
 }
 
 .style-options {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.85rem;
+  gap: 1rem;
 }
 
 /* STYLE BUTTONS - SCALED UP */
 .style-btn {
-  padding: 1.25rem 0.5rem;
+  padding: 1.4rem 0.6rem;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.05);
   border-radius: var(--radius-md);
-  font-size: 1.05rem; 
+  font-size: 1.15rem; 
   font-weight: 700;
   color: var(--text-secondary);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
-.style-btn i { width: 22px; height: 22px; }
+.style-btn i { width: 24px; height: 24px; }
 
 .style-btn.active { 
     background: var(--grad-premium);
@@ -231,10 +231,10 @@ svg {
 
 .style-btn.active i { color: white; }
 
-.color-options { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 0.85rem; }
+.color-options { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1rem; }
 .color-swatch { 
-    width: 3.5rem; 
-    height: 3.5rem; 
+    width: 3.85rem; 
+    height: 3.85rem; 
     border-radius: 50%; 
     border: 3px solid rgba(255,255,255,0.1);
 }
@@ -242,20 +242,21 @@ svg {
 
 input[type="color"] { 
     width: 100%; 
-    height: 60px; 
-    border-radius: 0.85rem; 
+    height: 66px; 
+    border-radius: 1rem; 
     border: 1px solid rgba(255,255,255,0.1); 
     background: rgba(255,255,255,0.05); 
 }
 
 @media (min-width: 801px) {
-  .preview-area { flex: 0 0 58.75%; }
-  .canvas-container { max-width: 380px; }
+  .preview-area { flex: 0 0 50%; }
+  .controls-panel { flex: 0 0 50%; }
+  .canvas-container { max-width: 400px; }
   .mobile-float { flex-direction: row; position: relative; bottom: auto; }
 }
 
 @media (max-height: 700px) {
     .preview-area { padding-top: 2rem; }
-    .canvas-container { max-width: 220px; margin-bottom: 0.5rem; }
-    .mobile-float { bottom: 15%; }
+    .canvas-container { max-width: 200px; margin-bottom: 0.5rem; }
+    .mobile-float { bottom: 20%; }
 }
