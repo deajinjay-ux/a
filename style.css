@@ -23,6 +23,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-primary);
   height: 100vh;
+  width: 100vw;
   overflow: hidden;
   letter-spacing: -0.01em;
 }
@@ -33,7 +34,7 @@ body {
   width: 100vw;
 }
 
-/* --- Preview Area (50%) --- */
+/* --- Preview Area --- */
 .preview-area {
   flex: 0 0 50%;
   background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
@@ -48,21 +49,20 @@ body {
 
 .preview-header {
     position: absolute;
-    top: 2rem;
+    top: 1.5rem;
 }
 
-/* Badge Optimization */
 .badge {
     background: var(--grad-premium);
-    padding: 0.5rem 1.25rem;
+    padding: 0.4rem 1rem;
     border-radius: 3rem;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: white;
     box-shadow: 0 10px 20px -5px var(--accent-glow);
-    white-space: nowrap; /* Prevents breaking */
+    white-space: nowrap;
     border: 1px solid rgba(255,255,255,0.2);
 }
 
@@ -71,7 +71,6 @@ body {
   max-width: 320px;
   filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
   margin-bottom: 2rem;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 svg {
@@ -81,41 +80,36 @@ svg {
   overflow: visible;
 }
 
-/* Download Buttons - Professional Scale */
+/* Action Buttons */
 .mobile-float {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
   width: 100%;
   position: absolute;
-  bottom: 3rem;
+  bottom: 2rem;
   z-index: 100;
 }
 
 .btn {
-  min-width: 120px;
-  padding: 0.85rem 1.5rem;
+  min-width: 100px;
+  padding: 0.75rem 1.25rem;
   border-radius: var(--radius-md);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   cursor: pointer;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   transition: all 0.3s ease;
   text-transform: uppercase;
   color: white;
-  letter-spacing: 0.02em;
 }
 
-.btn:hover {
-    transform: translateY(-2px);
-}
-
-.btn i { width: 16px; height: 16px; }
+.btn i { width: 14px; height: 14px; }
 
 .btn.primary { 
     background: var(--grad-premium);
@@ -128,7 +122,7 @@ svg {
     border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* --- Controls Panel (50%) --- */
+/* --- Controls Panel --- */
 .controls-panel {
   flex: 0 0 50%;
   background-color: var(--panel-bg);
@@ -139,7 +133,7 @@ svg {
 }
 
 .panel-header {
-  padding: 2rem;
+  padding: 1.5rem;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -147,135 +141,176 @@ svg {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
-.brand i.logo { color: #ec4899; width: 24px; height: 24px; }
-.brand-text h1 { font-size: 1.25rem; font-weight: 800; color: white; letter-spacing: -0.02em; }
+.brand i.logo { color: #ec4899; width: 20px; height: 20px; }
+.brand-text h1 { font-size: 1.1rem; font-weight: 800; color: white; }
 
 .tabs {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
   background: rgba(0,0,0,0.2);
-  padding: 0.4rem;
+  padding: 0.3rem;
   border-radius: var(--radius-md);
 }
 
 .tab-btn {
   flex: 1;
-  padding: 0.75rem;
+  padding: 0.6rem;
   border: none;
   background: none;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   border-radius: 0.5rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  transition: all 0.2s ease;
+  gap: 0.4rem;
 }
 
 .tab-btn.active { 
     background: rgba(255,255,255,0.1); 
     color: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .controls-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
-/* Custom Scrollbar */
-.controls-scroll::-webkit-scrollbar { width: 6px; }
-.controls-scroll::-webkit-scrollbar-track { background: transparent; }
-.controls-scroll::-webkit-scrollbar-thumb { 
-    background: rgba(255,255,255,0.1); 
-    border-radius: 10px; 
-}
-
-.control-group { margin-bottom: 2.5rem; }
+.control-group { margin-bottom: 2rem; }
 .control-group label {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.85rem;
+  gap: 0.5rem;
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--text-secondary);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
-.control-group label i { color: #ec4899; width: 14px; height: 14px; }
+.control-group label i { color: #ec4899; width: 12px; height: 12px; }
 
 .style-options {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .style-btn {
-  padding: 1.25rem 0.5rem;
+  padding: 1rem 0.5rem;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-secondary);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  transition: all 0.2s ease;
-}
-
-.style-btn:hover {
-    background: rgba(255,255,255,0.06);
-    border-color: rgba(255,255,255,0.2);
+  gap: 0.5rem;
 }
 
 .style-btn.active { 
     background: var(--grad-premium);
     color: white;
     border: none;
-    box-shadow: 0 8px 20px -5px rgba(236, 72, 153, 0.4);
 }
 
-.color-options { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-bottom: 1.25rem; }
+.color-options { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; }
 .color-swatch { 
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.2rem;
+    height: 2.2rem;
     border-radius: 50%;
     border: 2px solid rgba(255,255,255,0.1);
-    cursor: pointer;
-    transition: all 0.2s ease;
 }
-.color-swatch:hover { transform: scale(1.1); }
-.color-swatch.active { border-color: white; transform: scale(1.15); box-shadow: 0 0 15px rgba(255,255,255,0.3); }
+.color-swatch.active { border-color: white; transform: scale(1.1); }
 
 input[type="color"] { 
     width: 100%; 
-    height: 50px;
+    height: 44px;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
     background: rgba(255,255,255,0.03);
-    cursor: pointer;
 }
 
-/* Desktop & Responsiveness */
-@media (max-width: 1024px) {
-    .preview-area, .controls-panel { flex: 0 0 50%; }
-}
-
+/* --- Mobile Optimization (Smartphones) --- */
 @media (max-width: 768px) {
-    .app-container { flex-direction: column; overflow-y: auto; height: auto; }
-    .preview-area { flex: 0 0 auto; min-height: 70vh; width: 100vw; border-right: none; border-bottom: 1px solid var(--border-color); }
-    .controls-panel { flex: 0 0 auto; width: 100vw; height: auto; }
-    .mobile-float { position: relative; bottom: auto; padding: 2rem 0; }
+    .app-container {
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .preview-area {
+        flex: 0 0 40%; /* Top 40% for avatar */
+        width: 100%;
+        padding: 1rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .canvas-container {
+        max-width: 160px;
+        margin-bottom: 0.5rem;
+    }
+
+    svg {
+        max-height: 30vh;
+    }
+
+    .preview-header { top: 1rem; }
+    
+    .mobile-float {
+        bottom: 0.75rem;
+        gap: 0.5rem;
+    }
+
+    .btn {
+        min-width: 80px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.7rem;
+    }
+
+    .controls-panel {
+        flex: 0 0 60%; /* Bottom 60% for menu */
+        width: 100%;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+    }
+
+    .panel-header {
+        padding: 1rem;
+    }
+
+    .brand { margin-bottom: 0.75rem; }
+    .brand-text h1 { font-size: 1rem; }
+    
+    /* Hide icons on mobile to save space as requested */
+    .brand i.logo,
+    .tab-btn i,
+    .control-group label i,
+    .style-btn i {
+        display: none !important;
+    }
+
+    .tabs { padding: 0.2rem; }
+    .tab-btn { padding: 0.5rem; font-size: 0.75rem; }
+
+    .controls-scroll {
+        padding: 1rem;
+    }
+
+    .control-group { margin-bottom: 1.5rem; }
+    .control-group label { margin-bottom: 0.75rem; font-size: 0.75rem; }
+
+    .style-options { gap: 0.5rem; }
+    .style-btn { padding: 0.75rem 0.25rem; font-size: 0.75rem; }
+
+    .color-swatch { width: 1.8rem; height: 1.8rem; }
 }
