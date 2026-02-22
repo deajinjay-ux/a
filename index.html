@@ -12,11 +12,15 @@
   <header class="app-header">
     <div class="logo-area">
       <i data-lucide="smile"></i>
-      <span>Avatar Studio</span>
+      <span class="logo-text">Avatar Studio</span>
     </div>
     <div class="header-actions">
+      <button id="theme-toggle" class="btn-header theme-btn" title="테마 변경">
+        <i data-lucide="moon" class="moon-icon"></i>
+        <i data-lucide="sun" class="sun-icon" style="display:none;"></i>
+      </button>
       <button class="btn-header random">
-        <i data-lucide="shuffle"></i> <span>랜덤</span>
+        <i data-lucide="shuffle"></i> <span class="hide-mobile">랜덤</span>
       </button>
       <button id="download-svg-btn" class="btn-header download secondary">
         <i data-lucide="code"></i> <span>SVG</span>
@@ -125,7 +129,6 @@
       </nav>
 
       <div class="controls-scroll">
-        <!-- Face Tab -->
         <div id="face-content" class="tab-content active">
           <div class="control-group">
             <label>눈 모양</label>
@@ -145,7 +148,6 @@
           </div>
         </div>
 
-        <!-- Hair Tab -->
         <div id="hair-content" class="tab-content">
           <div class="control-group">
             <label>헤어 스타일</label>
@@ -163,7 +165,6 @@
           </div>
         </div>
 
-        <!-- Skin Tone Tab -->
         <div id="skin-content" class="tab-content">
           <div class="control-group">
             <label>피부색 선택</label>
@@ -172,7 +173,6 @@
           </div>
         </div>
 
-        <!-- Clothes & Shoes Tab -->
         <div id="clothes-content" class="tab-content">
           <div class="control-group">
             <label>상의 색상</label>

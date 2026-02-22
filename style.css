@@ -6,9 +6,20 @@
   --accent-color: #3b82f6;
   --accent-soft: #eff6ff;
   --border-color: #e2e8f0;
+  --header-bg: #ffffff;
   --radius-lg: 0.75rem;
   --radius-md: 0.5rem;
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+body.dark-mode {
+  --bg-color: #0f172a;
+  --panel-bg: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent-color: #60a5fa;
+  --accent-soft: rgba(59, 130, 246, 0.1);
+  --border-color: rgba(255,255,255,0.1);
+  --header-bg: #1e293b;
 }
 
 * {
@@ -16,6 +27,7 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
 body {
@@ -30,12 +42,12 @@ body {
 /* Header */
 .app-header {
     height: 60px;
-    background: white;
+    background: var(--header-bg);
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
     position: fixed;
     top: 0;
     width: 100%;
@@ -47,15 +59,16 @@ body {
     align-items: center;
     gap: 0.5rem;
     font-weight: 800;
-    font-size: 1.1rem;
-    color: #0f172a;
+    font-size: 1rem;
+    color: var(--text-primary);
 }
 
 .logo-area i { color: var(--accent-color); }
 
 .header-actions {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 0.4rem;
 }
 
 .app-container {
@@ -65,23 +78,22 @@ body {
   padding-top: 60px;
 }
 
-/* --- Preview Area (Strict 50%) --- */
+/* --- Preview Area --- */
 .preview-area {
   flex: 0 0 50%;
   width: 50%;
-  background: #ffffff;
+  background: var(--bg-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1rem;
   position: relative;
 }
 
 .canvas-container {
   width: 100%;
   max-width: 280px;
-  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.05));
 }
 
 svg {
@@ -90,7 +102,7 @@ svg {
   max-height: 65vh;
 }
 
-/* --- Controls Panel (Strict 50%) --- */
+/* --- Controls Panel --- */
 .controls-panel {
   flex: 0 0 50%;
   width: 50%;
@@ -104,37 +116,31 @@ svg {
 .panel-tabs {
   display: flex;
   border-bottom: 1px solid var(--border-color);
-  background: white;
-  overflow-x: auto; /* Enable horizontal scroll for many tabs */
+  background: var(--panel-bg);
+  overflow-x: auto;
 }
 
 .panel-tabs::-webkit-scrollbar { display: none; }
 
 .tab-btn {
   flex: 1;
-  min-width: 80px;
-  padding: 1rem 0.5rem;
+  min-width: 70px;
+  padding: 1rem 0.4rem;
   border: none;
   background: none;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
   cursor: pointer;
   position: relative;
-  transition: all 0.2s;
   white-space: nowrap;
 }
 
-.tab-btn.active {
-  color: var(--accent-color);
-}
-
+.tab-btn.active { color: var(--accent-color); }
 .tab-btn.active::after {
   content: '';
   position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
+  bottom: -1px; left: 0; right: 0;
   height: 2px;
   background-color: var(--accent-color);
 }
@@ -142,16 +148,13 @@ svg {
 .controls-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 1.25rem;
+  padding: 1rem;
 }
 
-.control-group {
-  margin-bottom: 1.5rem;
-}
-
+.control-group { margin-bottom: 1.25rem; }
 .control-group label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 0.75rem;
@@ -159,74 +162,43 @@ svg {
 
 .style-options {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+  gap: 0.4rem;
 }
 
 .style-btn {
-  background: white;
+  background: var(--panel-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 0.75rem 0.4rem;
+  padding: 0.6rem 0.3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.3rem;
   cursor: pointer;
-  transition: all 0.2s;
   color: var(--text-secondary);
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
 }
 
-.style-btn i {
-    width: 20px;
-    height: 20px;
-}
-
+.style-btn i { width: 18px; height: 18px; }
 .style-btn.active {
   background-color: var(--accent-soft);
   border-color: var(--accent-color);
   color: var(--accent-color);
 }
 
-.style-btn.active i {
-  color: var(--accent-color);
-}
-
-.color-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
 .color-swatch {
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 2rem; height: 2rem;
   border-radius: 50%;
   border: 2px solid transparent;
   cursor: pointer;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
 }
-
-.color-swatch.active {
-  box-shadow: 0 0 0 2px var(--accent-color);
-  transform: scale(1.1);
-}
-
-input[type="color"] {
-  width: 100%;
-  height: 36px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  background: white;
-  margin-top: 0.75rem;
-  cursor: pointer;
-}
+.color-swatch.active { box-shadow: 0 0 0 2px var(--accent-color); transform: scale(1.1); }
 
 /* Header Buttons */
 .btn-header {
-    padding: 0.4rem 0.75rem;
+    padding: 0.4rem 0.6rem;
     border-radius: var(--radius-md);
     font-weight: 700;
     font-size: 0.75rem;
@@ -235,23 +207,25 @@ input[type="color"] {
     align-items: center;
     gap: 0.3rem;
     border: none;
+    background: transparent;
+    color: var(--text-primary);
 }
 
-.btn-header.random { background: #f1f5f9; color: #475569; }
 .btn-header.download { background: var(--accent-color); color: white; }
-.btn-header.download.secondary { background: #f1f5f9; color: var(--accent-color); border: 1px solid var(--border-color); }
+.btn-header.download.secondary { background: var(--accent-soft); color: var(--accent-color); border: 1px solid var(--border-color); }
 
-/* Hide tabs content */
+/* Theme Toggle Special */
+.theme-btn {
+    width: 36px; height: 36px;
+    padding: 0; justify-content: center;
+    border-radius: 50%;
+}
+.theme-btn:hover { background: var(--accent-soft); }
+
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-/* Mobile - Keeping 50/50 but making elements smaller */
 @media (max-width: 768px) {
-    .app-header { padding: 0 0.75rem; }
-    .logo-area span { display: none; } /* Show only icon on small mobile if space tight */
-    .preview-area { padding: 0.5rem; }
-    .controls-panel { border-left: 1px solid var(--border-color); }
-    .style-options { grid-template-columns: repeat(2, 1fr); }
-    .btn-header span { display: none; } /* Only icons in header for mobile */
-    .btn-header { padding: 0.5rem; }
+    .logo-text { font-size: 0.9rem; }
+    .hide-mobile { display: none; }
 }

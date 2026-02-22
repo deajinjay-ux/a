@@ -1,5 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    // --- Theme Management ---
+    const themeToggle = document.getElementById('theme-toggle');
+    const moonIcon = document.querySelector('.moon-icon');
+    const sunIcon = document.querySelector('.sun-icon');
+    
+    function toggleTheme() {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeIcons(isDark);
+    }
+
+    function updateThemeIcons(isDark) {
+        if (isDark) {
+            moonIcon.style.display = 'none';
+            sunIcon.style.display = 'block';
+        } else {
+            moonIcon.style.display = 'block';
+            sunIcon.style.display = 'none';
+        }
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.body.classList.add('dark-mode');
+        updateThemeIcons(true);
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
+
     // --- State & Config ---
     const config = {
         skin: { stops: ['skin-stop-1', 'skin-stop-2', 'skin-stop-3'], picker: 'skin-color-picker', optionsContainer: 'skin-options', palette: ['#F1C27D', '#FFDCB1', '#E0AC69', '#C68642', '#8D5524', '#5C3A1E'] },
@@ -93,21 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Randomize function for Header Button
+    // Randomize function
     document.querySelector('.btn-header.random').addEventListener('click', () => {
-        // Randomize Styles
         ['hair', 'eye', 'mouth'].forEach(type => {
             const options = document.querySelectorAll(`.style-options[data-type="${type}"] .style-btn`);
-            if (options.length > 0) {
-                const randomIdx = Math.floor(Math.random() * options.length);
-                options[randomIdx].click();
-            }
+            if (options.length > 0) options[Math.floor(Math.random() * options.length)].click();
         });
-        // Randomize Colors
         Object.keys(config).forEach(part => {
             const palette = config[part].palette;
-            const randomColor = palette[Math.floor(Math.random() * palette.length)];
-            applyColor(part, randomColor);
+            applyColor(part, palette[Math.floor(Math.random() * palette.length)]);
         });
     });
 
@@ -121,12 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(link);
     }
 
-    // SVG Download
     document.getElementById('download-svg-btn').addEventListener('click', () => {
         const svg = document.getElementById('avatar-svg');
         const serializer = new XMLSerializer();
         let source = serializer.serializeToString(svg);
-
         if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
             source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
         }
@@ -136,31 +158,23 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => URL.revokeObjectURL(url), 100);
     });
 
-    // PNG Download
     document.getElementById('download-png-btn').addEventListener('click', () => {
         const svg = document.getElementById('avatar-svg');
         const serializer = new XMLSerializer();
         const svgData = serializer.serializeToString(svg);
         const img = new Image();
-        
         const scale = 4;
         const width = 250 * scale;
         const height = 800 * scale;
-
         const svgBlob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
         const url = URL.createObjectURL(svgBlob);
-
         img.onload = function() {
             const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
+            canvas.width = width; canvas.height = height;
             const ctx = canvas.getContext('2d');
-            
             ctx.clearRect(0, 0, width, height);
             ctx.drawImage(img, 0, 0, width, height);
-            
-            const pngUrl = canvas.toDataURL("image/png");
-            triggerDownload(pngUrl, "avatar.png");
+            triggerDownload(canvas.toDataURL("image/png"), "avatar.png");
             URL.revokeObjectURL(url);
         };
         img.src = url;
