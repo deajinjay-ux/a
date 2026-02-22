@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Load saved theme
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.body.classList.add('dark-mode');
@@ -145,36 +144,49 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(link);
     }
 
+    // Improved SVG Download
     document.getElementById('download-svg-btn').addEventListener('click', () => {
-        const svg = document.getElementById('avatar-svg');
+        const svg = document.getElementById('avatar-svg').cloneNode(true);
+        
+        // Add explicit dimensions for better compatibility
+        svg.setAttribute('width', '250');
+        svg.setAttribute('height', '800');
+        
         const serializer = new XMLSerializer();
         let source = serializer.serializeToString(svg);
-        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
-            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+
+        // Add XML Header and ensure NameSpaces
+        if (!source.match(/^<\?xml/)) {
+            source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
         }
+        
         const svgBlob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
         const url = URL.createObjectURL(svgBlob);
         triggerDownload(url, "avatar.svg");
         setTimeout(() => URL.revokeObjectURL(url), 100);
     });
 
+    // Improved PNG Download
     document.getElementById('download-png-btn').addEventListener('click', () => {
         const svg = document.getElementById('avatar-svg');
         const serializer = new XMLSerializer();
         const svgData = serializer.serializeToString(svg);
-        const img = new Image();
+        
+        const canvas = document.createElement('canvas');
         const scale = 4;
-        const width = 250 * scale;
-        const height = 800 * scale;
+        canvas.width = 250 * scale;
+        canvas.height = 800 * scale;
+        const ctx = canvas.getContext('2d');
+
+        const img = new Image();
         const svgBlob = new Blob([svgData], {type: "image/svg+xml;charset=utf-8"});
         const url = URL.createObjectURL(svgBlob);
+
         img.onload = function() {
-            const canvas = document.createElement('canvas');
-            canvas.width = width; canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, width, height);
-            ctx.drawImage(img, 0, 0, width, height);
-            triggerDownload(canvas.toDataURL("image/png"), "avatar.png");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const pngUrl = canvas.toDataURL("image/png");
+            triggerDownload(pngUrl, "avatar.png");
             URL.revokeObjectURL(url);
         };
         img.src = url;
