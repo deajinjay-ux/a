@@ -117,8 +117,8 @@ svg {
     border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Icons within buttons */
-.btn i { transform: scale(0.5); }
+/* Icons within buttons - 1/10 Size */
+.btn i { transform: scale(0.1); }
 
 /* --- Controls Panel (Right Side) --- */
 .controls-panel {
@@ -142,8 +142,8 @@ svg {
     margin-bottom: 0.5rem;
 }
 
-/* Reduced logo size */
-.brand i.logo { transform: scale(0.5); }
+/* Reduced logo size - 1/10 */
+.brand i.logo { transform: scale(0.1); }
 
 .brand-text h1 { font-size: 0.8rem; font-weight: 800; color: white; }
 
@@ -171,8 +171,8 @@ svg {
   gap: 0.3rem;
 }
 
-/* Reduced tab icons */
-.tab-btn i { transform: scale(0.5); }
+/* Reduced tab icons - 1/10 */
+.tab-btn i { transform: scale(0.1); }
 
 .tab-btn.active { 
     background: rgba(255,255,255,0.1); 
@@ -199,8 +199,8 @@ svg {
   margin-bottom: 0.5rem;
 }
 
-/* Reduced label icons */
-.control-group label i { transform: scale(0.5); color: #ec4899; }
+/* Reduced label icons - 1/10 */
+.control-group label i { transform: scale(0.1); color: #ec4899; }
 
 .style-options {
   display: grid;
@@ -223,8 +223,8 @@ svg {
   gap: 0.3rem;
 }
 
-/* Reduced style icons */
-.style-btn i { transform: scale(0.5); }
+/* Reduced style icons - 1/10 */
+.style-btn i { transform: scale(0.1); }
 
 .style-btn.active { 
     background: var(--grad-premium);
