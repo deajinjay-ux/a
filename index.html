@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,12 +15,15 @@
       <span class="logo-text">Avatar Studio</span>
     </div>
     <div class="header-actions">
+      <button id="lang-toggle" class="btn-header lang-btn" title="Change Language">
+        <i data-lucide="languages"></i> <span id="lang-text">EN</span>
+      </button>
       <button id="theme-toggle" class="btn-header theme-btn" title="테마 변경">
         <i data-lucide="moon" class="moon-icon"></i>
         <i data-lucide="sun" class="sun-icon" style="display:none;"></i>
       </button>
       <button class="btn-header random">
-        <i data-lucide="shuffle"></i> <span class="hide-mobile">랜덤</span>
+        <i data-lucide="shuffle"></i> <span class="hide-mobile" data-i18n="random">랜덤</span>
       </button>
       <button id="download-svg-btn" class="btn-header download secondary">
         <i data-lucide="code"></i> <span>SVG</span>
@@ -139,51 +142,48 @@
     <!-- Right: Controls (50%) -->
     <aside class="controls-panel">
       <nav class="panel-tabs">
-        <button class="tab-btn active" data-tab="face">얼굴</button>
-        <button class="tab-btn" data-tab="hair">헤어</button>
-        <button class="tab-btn" data-tab="skin">피부색</button>
-        <button class="tab-btn" data-tab="clothes">옷 & 신발</button>
+        <button class="tab-btn active" data-tab="face" data-i18n="tabFace">얼굴</button>
+        <button class="tab-btn" data-tab="hair" data-i18n="tabHair">헤어</button>
+        <button class="tab-btn" data-tab="skin" data-i18n="tabSkin">피부색</button>
+        <button class="tab-btn" data-tab="clothes" data-i18n="tabClothes">옷 & 신발</button>
       </nav>
 
       <div class="controls-scroll">
         <div id="face-content" class="tab-content active">
           <div class="control-group">
-            <label>성별</label>
+            <label data-i18n="gender">성별</label>
             <div class="style-options" data-type="gender">
-               <button class="style-btn active" data-id="male"><i data-lucide="user"></i> <span>남성</span></button>
-               <button class="style-btn" data-id="female"><i data-lucide="user-round"></i> <span>여성</span></button>
+               <button class="style-btn active" data-id="male"><i data-lucide="user"></i> <span data-i18n="male">남성</span></button>
+               <button class="style-btn" data-id="female"><i data-lucide="user-round"></i> <span data-i18n="female">여성</span></button>
             </div>
           </div>
           <div class="control-group">
-            <label>눈 모양</label>
+            <label data-i18n="eyeShape">눈 모양</label>
             <div class="style-options" data-type="eye">
-               <button class="style-btn active" data-id="1"><i data-lucide="eye"></i> <span>기본</span></button>
-               <button class="style-btn" data-id="2"><i data-lucide="square"></i> <span>스퀘어</span></button>
-               <button class="style-btn" data-id="3"><i data-lucide="circle"></i> <span>도트</span></button>
+               <button class="style-btn active" data-id="1"><i data-lucide="eye"></i> <span data-i18n="styleDefault">기본</span></button>
+               <button class="style-btn" data-id="2"><i data-lucide="square"></i> <span data-i18n="styleSquare">스퀘어</span></button>
+               <button class="style-btn" data-id="3"><i data-lucide="circle"></i> <span data-i18n="styleDot">도트</span></button>
             </div>
           </div>
           <div class="control-group">
-            <label>입 모양</label>
+            <label data-i18n="mouthShape">입 모양</label>
             <div class="style-options" data-type="mouth">
-               <button class="style-btn active" data-id="1"><i data-lucide="smile"></i> <span>미소</span></button>
-               <button class="style-btn" data-id="2"><i data-lucide="meh"></i> <span>무표정</span></button>
-               <button class="style-btn" data-id="3"><i data-lucide="circle"></i> <span>놀람</span></button>
+               <button class="style-btn active" data-id="1"><i data-lucide="smile"></i> <span data-i18n="styleSmile">미소</span></button>
+               <button class="style-btn" data-id="2"><i data-lucide="meh"></i> <span data-i18n="styleNeutral">무표정</span></button>
+               <button class="style-btn" data-id="3"><i data-lucide="circle"></i> <span data-i18n="styleSurprise">놀람</span></button>
             </div>
           </div>
         </div>
 
         <div id="hair-content" class="tab-content">
           <div class="control-group">
-            <label>헤어 스타일</label>
+            <label data-i18n="hairStyle">헤어 스타일</label>
             <div class="style-options" data-type="hair">
-               <button class="style-btn active" data-id="1"><i data-lucide="user"></i> <span>기본</span></button>
-               <button class="style-btn" data-id="2"><i data-lucide="star"></i> <span>클래식</span></button>
-               <button class="style-btn" data-id="3"><i data-lucide="zap"></i> <span>스파이키</span></button>
-               <button class="style-btn" data-id="4"><i data-lucide="scissors"></i> <span>숏컷</span></button>
+               <!-- Hair buttons are dynamically generated -->
             </div>
           </div>
           <div class="control-group">
-            <label>머리 색상</label>
+            <label data-i18n="hairColor">머리 색상</label>
             <div class="color-options" id="hair-options"></div>
             <input type="color" id="hair-color-picker" value="#2d3436">
           </div>
@@ -191,7 +191,7 @@
 
         <div id="skin-content" class="tab-content">
           <div class="control-group">
-            <label>피부색 선택</label>
+            <label data-i18n="skinTone">피부색 선택</label>
             <div class="color-options" id="skin-options"></div>
             <input type="color" id="skin-color-picker" value="#F1C27D">
           </div>
@@ -199,19 +199,19 @@
 
         <div id="clothes-content" class="tab-content">
           <div class="control-group">
-            <label>하의 종류</label>
+            <label data-i18n="bottomType">하의 종류</label>
             <div class="style-options" data-type="bottom">
-               <button class="style-btn active" data-id="pants"><i data-lucide="columns"></i> <span>바지</span></button>
-               <button class="style-btn" data-id="skirt"><i data-lucide="layers"></i> <span>치마</span></button>
+               <button class="style-btn active" data-id="pants"><i data-lucide="columns"></i> <span data-i18n="pants">바지</span></button>
+               <button class="style-btn" data-id="skirt"><i data-lucide="layers"></i> <span data-i18n="skirt">치마</span></button>
             </div>
           </div>
           <div class="control-group">
-            <label>상의 색상</label>
+            <label data-i18n="shirtColor">상의 색상</label>
             <div class="color-options" id="shirt-options"></div>
             <input type="color" id="shirt-color-picker" value="#4834d4">
           </div>
           <div class="control-group">
-            <label>하의 색상</label>
+            <label data-i18n="bottomColor">하의 색상</label>
             <div class="color-options" id="pants-options"></div>
             <input type="color" id="pants-color-picker" value="#636e72">
           </div>

@@ -1,7 +1,107 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    // --- Translation Data ---
+    const i18n = {
+        ko: {
+            random: "랜덤",
+            tabFace: "얼굴",
+            tabHair: "헤어",
+            tabSkin: "피부색",
+            tabClothes: "옷 & 신발",
+            gender: "성별",
+            male: "남성",
+            female: "여성",
+            eyeShape: "눈 모양",
+            mouthShape: "입 모양",
+            styleDefault: "기본",
+            styleSquare: "스퀘어",
+            styleDot: "도트",
+            styleSmile: "미소",
+            styleNeutral: "무표정",
+            styleSurprise: "놀람",
+            hairStyle: "헤어 스타일",
+            hairColor: "머리 색상",
+            skinTone: "피부색 선택",
+            bottomType: "하의 종류",
+            pants: "바지",
+            skirt: "치마",
+            shirtColor: "상의 색상",
+            bottomColor: "하의 색상",
+            // Hair style names
+            hairMale1: "기본",
+            hairMale2: "클래식",
+            hairMale3: "스파이키",
+            hairMale4: "숏컷",
+            hairFemale1: "긴 생머리",
+            hairFemale2: "포니테일",
+            hairFemale3: "보브컷",
+            hairFemale4: "양갈래"
+        },
+        en: {
+            random: "Random",
+            tabFace: "Face",
+            tabHair: "Hair",
+            tabSkin: "Skin",
+            tabClothes: "Clothes",
+            gender: "Gender",
+            male: "Male",
+            female: "Female",
+            eyeShape: "Eyes",
+            mouthShape: "Mouth",
+            styleDefault: "Default",
+            styleSquare: "Square",
+            styleDot: "Dot",
+            styleSmile: "Smile",
+            styleNeutral: "Neutral",
+            styleSurprise: "Surprise",
+            hairStyle: "Hair Style",
+            hairColor: "Hair Color",
+            skinTone: "Skin Tone",
+            bottomType: "Bottoms",
+            pants: "Pants",
+            skirt: "Skirt",
+            shirtColor: "Top Color",
+            bottomColor: "Bottom Color",
+            // Hair style names
+            hairMale1: "Basic",
+            hairMale2: "Classic",
+            hairMale3: "Spiky",
+            hairMale4: "Short Cut",
+            hairFemale1: "Long Straight",
+            hairFemale2: "Ponytail",
+            hairFemale3: "Bob Cut",
+            hairFemale4: "Twin Tails"
+        }
+    };
+
     // --- State ---
     let currentGender = 'male';
+    let currentLang = localStorage.getItem('lang') || 'ko';
+
+    // --- Language Management ---
+    function updateLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
+        
+        // Update static text
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (i18n[lang][key]) {
+                el.textContent = i18n[lang][key];
+            }
+        });
+
+        // Update Toggle Button
+        document.getElementById('lang-text').textContent = lang === 'ko' ? 'EN' : 'KO';
+        
+        // Refresh hair styles (since labels need translation)
+        renderHairOptions();
+    }
+
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+        updateLanguage(currentLang === 'ko' ? 'en' : 'ko');
+    });
 
     // --- Theme Management ---
     const themeToggle = document.getElementById('theme-toggle');
@@ -32,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     themeToggle.addEventListener('click', toggleTheme);
 
-    // --- State & Config ---
+    // --- Config ---
     const config = {
         skin: { stops: ['skin-stop-1', 'skin-stop-2', 'skin-stop-3'], picker: 'skin-color-picker', optionsContainer: 'skin-options', palette: ['#F1C27D', '#FFDCB1', '#E0AC69', '#C68642', '#8D5524', '#5C3A1E'] },
         hair: { stops: ['hair-stop-1', 'hair-stop-2', 'hair-stop-3'], picker: 'hair-color-picker', optionsContainer: 'hair-options', palette: ['#2d3436', '#636e72', '#b2bec3', '#d63031', '#e17055', '#fdcb6e', '#6c5ce7', '#0984e3'] },
@@ -42,16 +142,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hairStyles = {
         male: [
-            { id: 1, name: '기본', icon: 'user' },
-            { id: 2, name: '클래식', icon: 'star' },
-            { id: 3, name: '스파이키', icon: 'zap' },
-            { id: 4, name: '숏컷', icon: 'scissors' }
+            { id: 1, i18nKey: 'hairMale1', icon: 'user' },
+            { id: 2, i18nKey: 'hairMale2', icon: 'star' },
+            { id: 3, i18nKey: 'hairMale3', icon: 'zap' },
+            { id: 4, i18nKey: 'hairMale4', icon: 'scissors' }
         ],
         female: [
-            { id: 5, name: '긴 생머리', icon: 'arrow-down' },
-            { id: 6, name: '포니테일', icon: 'frown' },
-            { id: 7, name: '보브컷', icon: 'smile' },
-            { id: 8, name: '양갈래', icon: 'heart' }
+            { id: 5, i18nKey: 'hairFemale1', icon: 'arrow-down' },
+            { id: 6, i18nKey: 'hairFemale2', icon: 'frown' },
+            { id: 7, i18nKey: 'hairFemale3', icon: 'smile' },
+            { id: 8, i18nKey: 'hairFemale4', icon: 'heart' }
         ]
     };
 
@@ -65,23 +165,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Gender Management ---
-    function updateGender(gender) {
-        currentGender = gender;
+    // --- Hair Rendering ---
+    function renderHairOptions() {
+        const gender = currentGender;
         const hairOptionsContainer = document.querySelector('.style-options[data-type="hair"]');
+        if (!hairOptionsContainer) return;
+        
+        // Save current active ID to restore it
+        const currentActiveBtn = hairOptionsContainer.querySelector('.style-btn.active');
+        const activeId = currentActiveBtn ? currentActiveBtn.dataset.id : null;
+
         hairOptionsContainer.innerHTML = '';
         
-        hairStyles[gender].forEach((style, index) => {
+        hairStyles[gender].forEach((style) => {
             const btn = document.createElement('button');
-            btn.className = `style-btn ${index === 0 ? 'active' : ''}`;
+            const isActive = activeId ? parseInt(activeId) === style.id : (hairStyles[gender][0].id === style.id);
+            
+            btn.className = `style-btn ${isActive ? 'active' : ''}`;
             btn.dataset.id = style.id;
-            btn.innerHTML = `<i data-lucide="${style.icon}"></i> <span>${style.name}</span>`;
+            btn.innerHTML = `<i data-lucide="${style.icon}"></i> <span>${i18n[currentLang][style.i18nKey]}</span>`;
             btn.addEventListener('click', () => selectStyle('hair', style.id, btn));
             hairOptionsContainer.appendChild(btn);
         });
         
         lucide.createIcons();
-        // Trigger first style selection
+    }
+
+    // --- Gender Management ---
+    function updateGender(gender) {
+        currentGender = gender;
+        renderHairOptions();
+        
+        // Trigger first style selection for SVG
+        const hairOptionsContainer = document.querySelector('.style-options[data-type="hair"]');
         selectStyle('hair', hairStyles[gender][0].id, hairOptionsContainer.firstChild);
 
         // Auto-select bottom style based on gender
@@ -114,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateGender(btn.dataset.id);
                 });
             });
-        } else if (type !== 'hair') { // Hair is handled by gender update
+        } else if (type !== 'hair') { // Hair is handled separately
             group.querySelectorAll('.style-btn').forEach(btn => {
                 btn.addEventListener('click', () => selectStyle(type, btn.dataset.id, btn));
             });
@@ -183,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const svgGroup = document.querySelector('#avatar-svg > g');
         if (svgGroup) {
             svgGroup.classList.remove('animating');
-            void svgGroup.offsetWidth; // trigger reflow
+            void svgGroup.offsetWidth; 
             svgGroup.classList.add('animating');
         }
     }
@@ -191,8 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Randomize function
     document.querySelector('.btn-header.random').addEventListener('click', () => {
         triggerShake();
-        
-        // Randomize gender first
         const genders = ['male', 'female'];
         const randomGender = genders[Math.floor(Math.random() * genders.length)];
         const genderBtn = document.querySelector(`.style-options[data-type="gender"] .style-btn[data-id="${randomGender}"]`);
@@ -203,7 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (options.length > 0) options[Math.floor(Math.random() * options.length)].click();
         });
         
-        // Randomize hair for the new gender
         const hairOptions = document.querySelectorAll(`.style-options[data-type="hair"] .style-btn`);
         if (hairOptions.length > 0) hairOptions[Math.floor(Math.random() * hairOptions.length)].click();
 
@@ -223,7 +336,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(link);
     }
 
-    // Improved SVG Download
     document.getElementById('download-svg-btn').addEventListener('click', () => {
         const svg = document.getElementById('avatar-svg').cloneNode(true);
         svg.setAttribute('width', '250');
@@ -239,7 +351,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => URL.revokeObjectURL(url), 100);
     });
 
-    // Improved PNG Download
     document.getElementById('download-png-btn').addEventListener('click', () => {
         const svg = document.getElementById('avatar-svg');
         const serializer = new XMLSerializer();
@@ -262,7 +373,8 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = url;
     });
 
-    // Initialize with default gender
+    // --- Initialization ---
+    updateLanguage(currentLang);
     updateGender('male');
 
 });
