@@ -372,10 +372,78 @@ svg {
     animation: shake 0.4s ease-in-out;
 }
 
+/* --- Responsive Design --- */
 @media (max-width: 850px) {
-    .app-container { flex-direction: column; height: auto; min-height: 100vh; }
-    .preview-area { flex: 0 0 45vh; padding: 1rem; }
-    .controls-panel { flex: 1; width: 100%; max-width: none; border-left: none; border-top: 1px solid var(--border-color); }
-    .canvas-container { max-height: 100%; }
+    :root {
+        --radius-lg: 0.75rem;
+        --radius-md: 0.5rem;
+    }
+
+    .app-header {
+        height: 56px;
+        padding: 0 1rem;
+    }
+
+    .logo-text { font-size: 1rem; }
+
+    .app-container { 
+        flex-direction: column; 
+        height: calc(100vh - 56px); 
+        margin-top: 56px; 
+    }
+
+    .preview-area { 
+        flex: 0 0 38vh; /* Reduce preview height significantly */
+        padding: 0.5rem; 
+    }
+
+    .canvas-container {
+        max-width: 220px;
+        max-height: 100%;
+    }
+
+    .controls-panel { 
+        flex: 1; 
+        width: 100%; 
+        max-width: none; 
+        border-left: none; 
+        border-top: 1px solid var(--border-color); 
+        overflow: hidden; /* Ensure it stays within viewport */
+    }
+
+    .tab-btn {
+        padding: 0.8rem 0.4rem;
+        font-size: 0.8rem;
+    }
+
+    .controls-scroll {
+        padding: 1.25rem 1rem;
+    }
+
+    .control-group { 
+        margin-bottom: 1.5rem; /* Tighter spacing between groups */
+    }
+
+    .control-group label {
+        margin-bottom: 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .style-options {
+        grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .style-btn {
+        padding: 0.6rem 0.4rem;
+    }
+
+    .style-btn i { width: 18px; height: 18px; }
+
+    .color-swatch {
+        width: 2.2rem;
+        height: 2.2rem;
+    }
+
     .hide-mobile { display: none; }
 }
