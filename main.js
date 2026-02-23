@@ -178,8 +178,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- Animation ---
+    function triggerShake() {
+        const svgGroup = document.querySelector('#avatar-svg > g');
+        if (svgGroup) {
+            svgGroup.classList.remove('animating');
+            void svgGroup.offsetWidth; // trigger reflow
+            svgGroup.classList.add('animating');
+        }
+    }
+
     // Randomize function
     document.querySelector('.btn-header.random').addEventListener('click', () => {
+        triggerShake();
+        
         // Randomize gender first
         const genders = ['male', 'female'];
         const randomGender = genders[Math.floor(Math.random() * genders.length)];
