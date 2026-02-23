@@ -393,12 +393,12 @@ svg {
     }
 
     .preview-area { 
-        flex: 0 0 38vh; /* Reduce preview height significantly */
+        flex: 0 0 32vh; /* Reduced height to show more controls */
         padding: 0.5rem; 
     }
 
     .canvas-container {
-        max-width: 220px;
+        max-width: 200px;
         max-height: 100%;
     }
 
@@ -408,7 +408,17 @@ svg {
         max-width: none; 
         border-left: none; 
         border-top: 1px solid var(--border-color); 
-        overflow: hidden; /* Ensure it stays within viewport */
+        overflow: hidden; 
+        display: flex;
+        flex-direction: column;
+    }
+
+    .panel-tabs {
+        flex: 0 0 auto; /* Keep tabs at top */
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--panel-bg);
     }
 
     .tab-btn {
@@ -417,11 +427,14 @@ svg {
     }
 
     .controls-scroll {
-        padding: 1.25rem 1rem;
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth iOS scroll */
+        padding: 1.25rem 1rem 120px 1rem; /* Added large bottom padding for extra movement */
     }
 
     .control-group { 
-        margin-bottom: 1.5rem; /* Tighter spacing between groups */
+        margin-bottom: 1.5rem; 
     }
 
     .control-group label {
