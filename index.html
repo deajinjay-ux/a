@@ -78,6 +78,18 @@
                 <path id="hair-style-2" d="M60,80 Q125,-10 190,80 L195,180 Q195,200 175,200 L160,200 Q140,200 125,180 Q110,200 90,200 L75,200 Q55,200 55,180 Z" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
                 <path id="hair-style-3" d="M65,90 L50,70 L80,75 L90,40 L120,70 L135,30 L160,75 L190,50 L185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
                 <path id="hair-style-4" d="M80,50 Q125,20 170,50 Q160,40 125,40 Q90,40 80,50" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
+                <!-- Female Styles -->
+                <path id="hair-style-5" d="M60,90 Q60,20 125,20 Q190,20 190,90 L200,300 Q125,280 50,300 Z" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
+                <g id="hair-style-6" style="display:none;">
+                  <path d="M65,90 Q125,20 185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)"/>
+                  <path d="M185,80 Q220,70 210,140 Q200,160 180,150" fill="url(#hairShade)"/>
+                </g>
+                <path id="hair-style-7" d="M60,80 Q125,20 190,80 L195,180 Q125,170 55,180 Z" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
+                <g id="hair-style-8" style="display:none;">
+                   <path d="M65,90 Q125,20 185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)"/>
+                   <path d="M60,90 Q30,100 40,180 Q50,200 70,180" fill="url(#hairShade)"/>
+                   <path d="M190,90 Q220,100 210,180 Q200,200 180,180" fill="url(#hairShade)"/>
+                </g>
               </g>
               <g id="eye-styles">
                  <g id="eye-style-1">
@@ -111,8 +123,13 @@
             <rect x="185" y="260" width="30" height="200" rx="20" ry="20" fill="url(#skinShade)" filter="url(#shadow)"/>
             <rect x="195" y="460" width="20" height="30" rx="5" fill="url(#skinShade)" filter="url(#shadow)"/> 
             <rect x="187" y="465" width="8" height="20" rx="4" fill="url(#skinShade)" filter="url(#shadow)"/>
-            <rect x="65" y="460" width="50" height="200" rx="0" ry="0" fill="url(#pantsShade)" filter="url(#shadow)"/>
-            <rect x="135" y="460" width="50" height="200" rx="0" ry="0" fill="url(#pantsShade)" filter="url(#shadow)"/>
+            <g id="bottom-styles">
+              <g id="bottom-style-pants">
+                <rect x="65" y="460" width="50" height="200" rx="0" ry="0" fill="url(#pantsShade)" filter="url(#shadow)"/>
+                <rect x="135" y="460" width="50" height="200" rx="0" ry="0" fill="url(#pantsShade)" filter="url(#shadow)"/>
+              </g>
+              <path id="bottom-style-skirt" d="M65,460 L185,460 L205,620 Q125,640 45,620 Z" fill="url(#pantsShade)" filter="url(#shadow)" style="display:none;"/>
+            </g>
             <rect x="60" y="660" width="60" height="30" rx="10" ry="10" fill="url(#shoeShade)" filter="url(#shadow)"/>
             <rect x="130" y="660" width="60" height="30" rx="10" ry="10" fill="url(#shoeShade)" filter="url(#shadow)"/>
           </svg>
@@ -130,6 +147,13 @@
 
       <div class="controls-scroll">
         <div id="face-content" class="tab-content active">
+          <div class="control-group">
+            <label>성별</label>
+            <div class="style-options" data-type="gender">
+               <button class="style-btn active" data-id="male"><i data-lucide="user"></i> <span>남성</span></button>
+               <button class="style-btn" data-id="female"><i data-lucide="user-round"></i> <span>여성</span></button>
+            </div>
+          </div>
           <div class="control-group">
             <label>눈 모양</label>
             <div class="style-options" data-type="eye">
@@ -174,6 +198,13 @@
         </div>
 
         <div id="clothes-content" class="tab-content">
+          <div class="control-group">
+            <label>하의 종류</label>
+            <div class="style-options" data-type="bottom">
+               <button class="style-btn active" data-id="pants"><i data-lucide="columns"></i> <span>바지</span></button>
+               <button class="style-btn" data-id="skirt"><i data-lucide="layers"></i> <span>치마</span></button>
+            </div>
+          </div>
           <div class="control-group">
             <label>상의 색상</label>
             <div class="color-options" id="shirt-options"></div>
