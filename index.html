@@ -329,7 +329,7 @@
                 margin-top: 52px;
             }
             .preview-area {
-                flex: 0 0 32vh; /* Reduced height to fix scaling */
+                flex: 0 0 32vh;
                 padding: 0.75rem;
             }
             .canvas-container {
@@ -695,9 +695,9 @@
                     let usePound = false; if (col[0] == "#") { col = col.slice(1); usePound = true; }
                     let num = parseInt(col, 16);
                     let r = (num >> 16) + amt; if (r > 255) r = 255; else if (r < 0) r = 0;
-                    let b = ((num >> 8) & 0x00FF) + amt; if (b > 255) b = 255; else if (b < 0) b = 0;
-                    let g = (num & 0x0000FF) + amt; if (g > 255) g = 255; else if (g < 0) g = 0;
-                    return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16).padStart(6, '0');
+                    let g = ((num >> 8) & 0x00FF) + amt; if (g > 255) g = 255; else if (g < 0) g = 0;
+                    let b = (num & 0x0000FF) + amt; if (b > 255) b = 255; else if (b < 0) b = 0;
+                    return (usePound ? "#" : "") + (b | (g << 8) | (r << 16)).toString(16).padStart(6, '0');
                 };
 
                 svg.style.setProperty('--skin-color', state.colors.skin);
@@ -770,21 +770,56 @@
 
             const triggerDownload = (url, filename) => { const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); document.body.removeChild(a); };
 
+            const getExportableSVG = () => {
+                const originalSvg = document.getElementById('avatar-svg');
+                const clonedSvg = originalSvg.cloneNode(true);
+                const originalElements = originalSvg.querySelectorAll('*');
+                const clonedElements = clonedSvg.querySelectorAll('*');
+                
+                clonedSvg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+                for (let i = 0; i < originalElements.length; i++) {
+                    const orig = originalElements[i];
+                    const clone = clonedElements[i];
+                    if (!clone) continue;
+                    
+                    const style = window.getComputedStyle(orig);
+                    const tag = orig.tagName.toLowerCase();
+                    
+                    if (tag !== 'svg' && tag !== 'g' && tag !== 'defs' && tag !== 'filter' && tag !== 'fedropshadow') {
+                        clone.setAttribute('fill', style.fill);
+                        clone.setAttribute('stroke', style.stroke);
+                        clone.setAttribute('stroke-width', style.strokeWidth);
+                        clone.setAttribute('stroke-linecap', style.strokeLinecap);
+                        clone.setAttribute('stroke-linejoin', style.strokeLinejoin);
+                        clone.setAttribute('opacity', style.opacity);
+                        clone.setAttribute('display', style.display);
+                    }
+                    clone.removeAttribute('class');
+                }
+                return clonedSvg;
+            };
+
             document.getElementById('download-svg-btn').onclick = () => {
-                const svg = document.getElementById('avatar-svg').cloneNode(true);
-                const content = svg.innerHTML.replace(/var\(--skin-color, [^)]+\)/g, state.colors.skin).replace(/var\(--hair-color, [^)]+\)/g, state.colors.hair).replace(/var\(--top-color, [^)]+\)/g, state.colors.top).replace(/var\(--bottom-color, [^)]+\)/g, state.colors.bottom);
-                svg.innerHTML = content;
-                let src = new XMLSerializer().serializeToString(svg); if (!src.match(/^<\?xml/)) src = '<?xml version="1.0" standalone="no"?>\r\n' + src;
+                const svg = getExportableSVG();
+                let src = new XMLSerializer().serializeToString(svg);
+                if (!src.match(/^<\?xml/)) src = '<?xml version="1.0" standalone="no"?>\r\n' + src;
                 triggerDownload(URL.createObjectURL(new Blob([src], { type: 'image/svg+xml;charset=utf-8' })), 'avatar.svg');
             };
 
             document.getElementById('download-png-btn').onclick = () => {
-                const svg = document.getElementById('avatar-svg');
+                const svg = getExportableSVG();
                 const src = new XMLSerializer().serializeToString(svg);
-                const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = 2000;
-                const ctx = canvas.getContext('2d'); const img = new Image();
-                img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0, canvas.width, canvas.height); triggerDownload(canvas.toDataURL('image/png'), 'avatar.png'); };
-                img.src = URL.createObjectURL(new Blob([src], { type: 'image/svg+xml;charset=utf-8' }));
+                const canvas = document.createElement('canvas');
+                canvas.width = 1200; canvas.height = 2000;
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.onload = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    triggerDownload(canvas.toDataURL('image/png'), 'avatar.png');
+                };
+                img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(src)));
             };
 
             updateLanguage(currentLang); renderHairOptions(); updateAvatar();
