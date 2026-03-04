@@ -1,226 +1,1322 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Avatar Studio Pro | Professional Character Creator</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Avatar Studio Pro | Vector Character Creator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-color: #f0fdfa;
+            --bg-gradient: linear-gradient(135deg, #ccfbf1 0%, #e0f2fe 100%);
+            --panel-bg: rgba(255, 255, 255, 0.9);
+            --panel-backdrop: blur(16px);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #94a3b8;
+            --accent-color: #0ea5e9;
+            --accent-hover: #0284c7;
+            --accent-soft: #e0f2fe;
+            --border-color: #cbd5e1;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius-lg: 1rem;
+            --radius-md: 0.75rem;
+            --radius-sm: 0.5rem;
+        }
+
+        body.dark-mode {
+            --bg-color: #020617;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #082f49 100%);
+            --panel-bg: rgba(15, 23, 42, 0.85);
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #64748b;
+            --accent-color: #38bdf8;
+            --accent-hover: #7dd3fc;
+            --accent-soft: rgba(56, 189, 248, 0.15);
+            --border-color: rgba(255,255,255,0.1);
+            --header-bg: rgba(2, 6, 23, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Header */
+        .app-header {
+            height: 64px;
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+
+            .logo-area i {
+                color: var(--accent-color);
+            }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            height: calc(100vh - 64px);
+            margin-top: 64px;
+        }
+
+        /* Preview Area & SVG Animations */
+        .preview-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .preview-area::before {
+                content: '';
+                position: absolute;
+                width: 50vw;
+                height: 50vw;
+                max-width: 600px;
+                max-height: 600px;
+                background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: -1;
+                opacity: 0.8;
+            }
+
+        .canvas-container {
+            width: 100%;
+            max-width: 420px;
+            height: 100%;
+            max-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            overflow: visible;
+        }
+
+        /* Avatar SVG Styles */
+        .svg-skin {
+            fill: var(--skin-color, #F5CBA7);
+            transition: fill 0.3s;
+        }
+
+        .svg-skin-dark {
+            fill: var(--skin-dark, #E0AC69);
+            transition: fill 0.3s;
+        }
+
+        .svg-hair {
+            fill: var(--hair-color, #6b4c3a);
+            transition: fill 0.3s;
+        }
+
+        .svg-hair-dark {
+            fill: var(--hair-dark, #4a3325);
+            transition: fill 0.3s;
+        }
+
+        .svg-top {
+            fill: var(--top-color, #4a90e2);
+            transition: fill 0.3s;
+        }
+
+        .svg-top-dark {
+            fill: var(--top-dark, #357abd);
+            transition: fill 0.3s;
+        }
+
+        .svg-bottom {
+            fill: var(--bottom-color, #333333);
+            transition: fill 0.3s;
+        }
+
+        .svg-bottom-dark {
+            fill: var(--bottom-dark, #1a1a1a);
+            transition: fill 0.3s;
+        }
+
+        .svg-outline {
+            stroke: #3f2a24;
+            stroke-width: 3.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .svg-outline-thin {
+            stroke: #3f2a24;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .svg-white {
+            fill: #ffffff;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes blink {
+            0%, 92%, 100% {
+                transform: scaleY(1);
+            }
+
+            96% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        #full-body {
+            animation: float 3.5s ease-in-out infinite;
+            transform-origin: center bottom;
+        }
+
+            #full-body.shake {
+                animation: shake 0.5s ease-in-out;
+            }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0) rotate(0);
+            }
+
+            20% {
+                transform: translateX(-5px) rotate(-2deg);
+            }
+
+            40% {
+                transform: translateX(5px) rotate(2deg);
+            }
+
+            60% {
+                transform: translateX(-5px) rotate(-2deg);
+            }
+
+            80% {
+                transform: translateX(5px) rotate(2deg);
+            }
+        }
+
+        #eyes-group {
+            transform-origin: 150px 155px;
+            animation: blink 5s infinite;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            flex: 0 0 420px;
+            max-width: 450px;
+            background-color: var(--panel-bg);
+            backdrop-filter: var(--panel-backdrop);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--border-color);
+            box-shadow: -4px 0 20px rgba(0,0,0,.04);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .panel-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 0.5rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1.2rem 0.5rem;
+            border: none;
+            background: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            position: relative;
+            font-family: inherit;
+            transition: color 0.2s;
+        }
+
+            .tab-btn:hover {
+                color: var(--text-primary);
+            }
+
+            .tab-btn.active {
+                color: var(--accent-color);
+            }
+
+                .tab-btn.active::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -1px;
+                    left: 15%;
+                    right: 15%;
+                    height: 3px;
+                    border-radius: 3px 3px 0 0;
+                    background: var(--accent-color);
+                }
+
+        .controls-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+            .controls-scroll::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .controls-scroll::-webkit-scrollbar-thumb {
+                background: var(--border-color);
+                border-radius: 4px;
+            }
+
+        .control-group {
+            margin-bottom: 2rem;
+        }
+
+            .control-group label {
+                display: block;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                font-weight: 800;
+                color: var(--text-tertiary);
+                margin-bottom: 0.8rem;
+                letter-spacing: 0.05em;
+            }
+
+        /* Style Buttons */
+        .style-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .style-btn {
+            background: var(--bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.8rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+            font-family: inherit;
+        }
+
+            .style-btn i {
+                width: 24px;
+                height: 24px;
+                opacity: 0.7;
+                transition: all 0.2s;
+            }
+
+            .style-btn:hover {
+                border-color: var(--accent-color);
+                transform: translateY(-2px);
+                color: var(--text-primary);
+            }
+
+                .style-btn:hover i {
+                    opacity: 1;
+                    transform: scale(1.1);
+                }
+
+            .style-btn.active {
+                background: var(--accent-soft);
+                border-color: var(--accent-color);
+                color: var(--accent-color);
+            }
+
+                .style-btn.active i {
+                    opacity: 1;
+                    stroke-width: 2.5px;
+                }
+
+        /* Color Swatches */
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .color-swatch {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            border: 3px solid var(--panel-bg);
+            box-shadow: 0 0 0 1px var(--border-color), var(--shadow-sm);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .color-swatch:hover {
+                transform: scale(1.15);
+            }
+
+            .color-swatch.active {
+                transform: scale(1.15);
+                box-shadow: 0 0 0 2px var(--panel-bg), 0 0 0 4px var(--accent-color);
+                z-index: 2;
+            }
+
+        .hidden-picker {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+
+        .custom-color-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1rem;
+            border-radius: var(--radius-sm);
+            border: 2px dashed var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+            .custom-color-btn:hover {
+                border-color: var(--accent-color);
+                color: var(--accent-color);
+                background: var(--accent-soft);
+            }
+
+        /* Header Buttons */
+        .btn-header {
+            padding: 0.5rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            font-family: inherit;
+            background: transparent;
+            color: var(--text-secondary);
+        }
+
+            .btn-header i {
+                width: 18px;
+                height: 18px;
+            }
+
+            .btn-header:hover {
+                background: var(--bg-color);
+                color: var(--text-primary);
+            }
+
+            .btn-header.download {
+                background: var(--accent-color);
+                color: white;
+                box-shadow: var(--shadow-sm);
+            }
+
+                .btn-header.download:hover {
+                    background: var(--accent-hover);
+                    transform: translateY(-2px);
+                    box-shadow: var(--shadow-md);
+                }
+
+                .btn-header.download.secondary {
+                    background: transparent;
+                    color: var(--accent-color);
+                    border: 2px solid var(--accent-color);
+                }
+
+                    .btn-header.download.secondary:hover {
+                        background: var(--accent-soft);
+                    }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+            .tab-content.active {
+                display: block;
+            }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .app-header {
+                height: 60px;
+                padding: 0 1rem;
+            }
+
+            .app-container {
+                flex-direction: column;
+                height: calc(100vh - 60px);
+                margin-top: 60px;
+            }
+
+            .preview-area {
+                flex: 0 0 38vh;
+                padding: 1rem;
+            }
+
+            .canvas-container {
+                max-width: 280px;
+            }
+
+            .controls-panel {
+                flex: 1;
+                width: 100%;
+                max-width: none;
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+                border-radius: 1.5rem 1.5rem 0 0;
+            }
+
+            .panel-tabs {
+                position: sticky;
+                top: 0;
+                z-index: 20;
+                background: var(--panel-bg);
+                border-radius: 1.5rem 1.5rem 0 0;
+            }
+
+            .tab-btn {
+                padding: 1rem 0.2rem;
+                font-size: 0.8rem;
+            }
+
+            .controls-scroll {
+                padding: 1.5rem 1rem 100px 1rem;
+            }
+
+            .hide-mobile {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header class="app-header">
-    <div class="logo-area">
-      <i data-lucide="smile"></i>
-      <span class="logo-text">Avatar Studio</span>
+    <header class="app-header">
+        <div class="logo-area">
+            <i data-lucide="sparkles"></i>
+            <span class="logo-text">Avatar Studio Pro</span>
+        </div>
+        <div class="header-actions">
+            <button id="lang-toggle" class="btn-header lang-btn">
+                <i data-lucide="languages"></i> <span id="lang-text">EN</span>
+            </button>
+            <button id="theme-toggle" class="btn-header theme-btn">
+                <i data-lucide="moon" class="moon-icon"></i>
+                <i data-lucide="sun" class="sun-icon" style="display:none;"></i>
+            </button>
+            <button class="btn-header random">
+                <i data-lucide="shuffle"></i>
+                <span class="hide-mobile" data-i18n="random">랜덤</span>
+            </button>
+            <button class="btn-header random">
+                <i data-lucide="shuffle"></i>
+                <span class="hide-mobile">랜덤</span>
+            </button>
+            <button id="download-svg-btn" class="btn-header download secondary hide-mobile">
+                <i data-lucide="code"></i> <span>SVG</span>
+            </button>
+            <button id="download-png-btn" class="btn-header download">
+                <i data-lucide="image"></i> <span>PNG</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <main class="preview-area">
+            <div class="canvas-container">
+                <!-- SVG Vector Avatar Base -->
+                <!-- viewBox를 넉넉하게 잡아 카툰풍 비율(머리 큼, 몸통 작음)을 극대화 -->
+                <svg id="avatar-svg" viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.12" />
+                        </filter>
+                        <filter id="soft-shadow">
+                            <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.08" />
+                        </filter>
+                    </defs>
+
+                    <g id="full-body" filter="url(#drop-shadow)">
+
+                        <!-- 1. 뒤쪽 레이어 (뒷머리 등) -->
+                        <g id="layer-back">
+                            <g class="part-hair part-hair-f-1" style="display:none;">
+                                <path class="svg-hair svg-outline" d="M 100 150 C 60 250, 80 350, 110 380 L 150 350 L 190 380 C 220 350, 240 250, 200 150 Z" />
+                            </g>
+                            <g class="part-hair part-hair-f-2" style="display:none;">
+                                <path class="svg-hair svg-outline" d="M 150 120 C 240 70, 280 180, 240 280 C 210 250, 180 200, 160 160 Z" />
+                            </g>
+                        </g>
+
+                        <!-- 2. 신발 -->
+                        <g id="layer-shoes">
+                            <g class="part-shoe">
+                                <!-- 왼발 -->
+                                <path class="svg-bottom-dark svg-outline" d="M 110 435 C 105 450, 140 455, 145 440 L 135 425 L 115 425 Z" />
+                                <path class="svg-white svg-outline" d="M 107 445 C 105 455, 142 460, 145 448 L 140 440 L 110 440 Z" />
+                                <!-- 오른발 -->
+                                <path class="svg-bottom-dark svg-outline" d="M 190 435 C 195 450, 160 455, 155 440 L 165 425 L 185 425 Z" />
+                                <path class="svg-white svg-outline" d="M 193 445 C 195 455, 158 460, 155 448 L 160 440 L 190 440 Z" />
+                            </g>
+                        </g>
+
+                        <!-- 3. 피부 레이어 (다리, 목, 손) -->
+                        <g id="layer-skin-body">
+                            <!-- 다리 -->
+                            <path class="svg-skin svg-outline" d="M 120 350 L 115 430 L 140 430 L 135 350 Z" />
+                            <path class="svg-skin svg-outline" d="M 180 350 L 185 430 L 160 430 L 165 350 Z" />
+
+                            <!-- 양말 -->
+                            <path class="svg-white svg-outline-thin" d="M 117 400 L 138 400 L 140 425 L 115 425 Z" />
+                            <path class="svg-white svg-outline-thin" d="M 183 400 L 162 400 L 160 425 L 185 425 Z" />
+                            <path class="svg-top svg-outline-thin" d="M 117 410 L 139 410 M 183 410 L 161 410" />
+
+                            <!-- 팔 (소매 밖으로 나온 부분) -->
+                            <g id="arm-left">
+                                <path class="svg-skin svg-outline" d="M 95 285 L 75 350 A 12 12 0 0 0 100 355 L 115 290 Z" />
+                            </g>
+                            <g id="arm-right">
+                                <path class="svg-skin svg-outline" d="M 205 285 L 225 350 A 12 12 0 0 1 200 355 L 185 290 Z" />
+                            </g>
+
+                            <!-- 목 -->
+                            <path class="svg-skin-dark svg-outline" d="M 135 190 L 165 190 L 160 230 L 140 230 Z" />
+                        </g>
+
+                        <!-- 4. 하의 -->
+                        <g id="layer-bottom">
+                            <g class="part-bottom part-bottom-1">
+                                <!-- 카고 반바지 (Haru style) -->
+                                <path class="svg-bottom svg-outline" d="M 110 300 C 130 310, 170 310, 190 300 L 195 365 C 180 370, 160 360, 155 350 L 150 315 L 145 350 C 140 360, 120 370, 105 365 Z" />
+                                <!-- 주머니 디테일 -->
+                                <path class="svg-bottom-dark svg-outline-thin" d="M 108 330 L 125 330 L 125 355 L 105 350 Z" />
+                                <path class="svg-bottom-dark svg-outline-thin" d="M 192 330 L 175 330 L 175 355 L 195 350 Z" />
+                            </g>
+                            <g class="part-bottom part-bottom-2" style="display:none;">
+                                <!-- 긴바지 -->
+                                <path class="svg-bottom svg-outline" d="M 110 300 C 130 310, 170 310, 190 300 L 195 425 L 160 425 L 150 315 L 140 425 L 105 425 Z" />
+                            </g>
+                            <g class="part-bottom part-bottom-3" style="display:none;">
+                                <!-- 주름 치마 -->
+                                <path class="svg-bottom svg-outline" d="M 110 300 C 130 310, 170 310, 190 300 L 210 370 C 180 380, 120 380, 90 370 Z" />
+                                <path class="svg-outline-thin" d="M 130 308 L 120 374 M 150 310 L 150 376 M 170 308 L 180 374" fill="none" />
+                            </g>
+                        </g>
+
+                        <!-- 5. 상의 -->
+                        <g id="layer-top">
+                            <g class="part-top part-top-1">
+                                <!-- 기본 반팔 -->
+                                <!-- 소매 -->
+                                <path class="svg-top svg-outline" d="M 105 235 L 75 295 L 100 310 L 120 260 Z" />
+                                <path class="svg-top svg-outline" d="M 195 235 L 225 295 L 200 310 L 180 260 Z" />
+                                <!-- 몸통 -->
+                                <path class="svg-top svg-outline" d="M 110 220 C 130 215, 170 215, 190 220 L 190 315 C 160 325, 140 325, 110 315 Z" />
+                                <!-- 넥라인 -->
+                                <path class="svg-top-dark svg-outline-thin" d="M 135 220 C 145 235, 155 235, 165 220 Z" />
+                            </g>
+
+                            <g class="part-top part-top-2" style="display:none;">
+                                <!-- 후드티 -->
+                                <path class="svg-top svg-outline" d="M 100 235 L 65 315 L 90 325 L 115 260 Z" />
+                                <path class="svg-top svg-outline" d="M 200 235 L 235 315 L 210 325 L 185 260 Z" />
+                                <path class="svg-top svg-outline" d="M 105 220 C 130 210, 170 210, 195 220 L 195 320 C 160 330, 140 330, 105 320 Z" />
+                                <!-- 후드 주머니 -->
+                                <path class="svg-top-dark svg-outline" d="M 125 285 L 175 285 L 185 315 L 115 315 Z" />
+                                <!-- 후드 끈 -->
+                                <path d="M 140 230 L 135 270 M 160 230 L 165 270" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#soft-shadow)" />
+                            </g>
+
+                            <g class="part-top part-top-3" style="display:none;">
+                                <!-- 조끼 + 셔츠 (Haru Style) -->
+                                <!-- 셔츠 소매 -->
+                                <path class="svg-top svg-outline" d="M 105 235 L 75 305 L 100 320 L 120 260 Z" />
+                                <path class="svg-top svg-outline" d="M 195 235 L 225 305 L 200 320 L 180 260 Z" />
+                                <!-- 소매 롤업 디테일 -->
+                                <path class="svg-top-dark svg-outline-thin" d="M 80 295 L 105 310 M 220 295 L 195 310" />
+
+                                <!-- 파란 후드 겹쳐입은 베이스 -->
+                                <path class="svg-top svg-outline" d="M 110 220 C 130 215, 170 215, 190 220 L 190 315 C 160 325, 140 325, 110 315 Z" />
+                                <path class="svg-top-dark svg-outline" d="M 120 215 C 150 240, 180 215, 180 215 Z" />
+
+                                <!-- 갈색 조끼 (고정색상 또는 bottom 색상 활용, 여기선 브라운 톤) -->
+                                <path fill="#8b5a2b" class="svg-outline" d="M 115 225 L 130 315 C 150 320, 170 315, 185 225 Z" />
+                                <path fill="var(--top)" class="svg-outline-thin" d="M 135 220 L 150 270 L 165 220 Z" /> <!-- 브이넥 -->
+                                <!-- 조끼 주머니 -->
+                                <rect x="120" y="280" width="15" height="20" rx="3" fill="#654321" class="svg-outline-thin" />
+                                <rect x="165" y="280" width="15" height="20" rx="3" fill="#654321" class="svg-outline-thin" />
+
+                                <!-- 크로스백 가방 끈 -->
+                                <path d="M 180 225 L 110 325" stroke="#3e2723" stroke-width="12" />
+                                <path d="M 180 225 L 110 325" stroke="#d7ccc8" stroke-width="4" />
+                                <!-- 가방 본체 (뒤로 넘어간 느낌) -->
+                                <path fill="#a1887f" class="svg-outline" d="M 95 310 L 125 305 L 135 345 L 105 350 Z" />
+                                <circle cx="120" cy="330" r="4" fill="#ffeb3b" class="svg-outline-thin" />
+                            </g>
+
+                            <g class="part-top part-top-4" style="display:none;">
+                                <!-- 스트라이프 티 -->
+                                <!-- 몸통 -->
+                                <path class="svg-white svg-outline" d="M 110 220 C 130 215, 170 215, 190 220 L 190 315 C 160 325, 140 325, 110 315 Z" />
+                                <path class="svg-top" d="M 112 240 L 188 240 L 188 255 L 112 255 Z M 112 270 L 188 270 L 188 285 L 112 285 Z M 112 300 L 188 300 L 188 312 C 160 320, 140 320, 112 312 Z" />
+                                <!-- 소매 -->
+                                <path class="svg-white svg-outline" d="M 105 235 L 70 305 L 95 320 L 120 260 Z" />
+                                <path class="svg-top" transform="rotate(30, 90, 260)" d="M 75 250 L 110 250 L 110 265 L 75 265 Z M 75 280 L 110 280 L 110 295 L 75 295 Z" />
+
+                                <path class="svg-white svg-outline" d="M 195 235 L 230 305 L 205 320 L 180 260 Z" />
+                                <path class="svg-top" transform="rotate(-30, 210, 260)" d="M 190 250 L 225 250 L 225 265 L 190 265 Z M 190 280 L 225 280 L 225 295 L 190 295 Z" />
+                                <!-- 아웃라인 덮기용 -->
+                                <path class="svg-outline" fill="none" d="M 110 220 C 130 215, 170 215, 190 220 L 190 315 C 160 325, 140 325, 110 315 Z" />
+                            </g>
+                        </g>
+
+                        <!-- 6. 얼굴 및 앞머리 -->
+                        <g id="layer-head">
+                            <!-- 귀 -->
+                            <ellipse cx="85" cy="165" rx="12" ry="18" class="svg-skin svg-outline" />
+                            <ellipse cx="215" cy="165" rx="12" ry="18" class="svg-skin svg-outline" />
+                            <path d="M 80 160 C 85 165, 85 170, 80 175" stroke="#d9a07b" stroke-width="2" fill="none" />
+                            <path d="M 220 160 C 215 165, 215 170, 220 175" stroke="#d9a07b" stroke-width="2" fill="none" />
+
+                            <!-- 얼굴 베이스 (볼이 빵빵한 카툰형) -->
+                            <path class="svg-skin svg-outline" d="M 90 130 C 90 210, 120 230, 150 230 C 180 230, 210 210, 210 130 C 210 70, 190 65, 150 65 C 110 65, 90 70, 90 130 Z" />
+
+                            <!-- 볼터치 -->
+                            <ellipse cx="110" cy="180" rx="12" ry="6" fill="#ff7675" opacity="0.4" filter="url(#soft-shadow)" />
+                            <ellipse cx="190" cy="180" rx="12" ry="6" fill="#ff7675" opacity="0.4" filter="url(#soft-shadow)" />
+
+                            <!-- 이목구비 -->
+                            <g id="eyes-group">
+                                <!-- 눈썹 -->
+                                <path class="svg-hair svg-outline-thin" d="M 100 135 Q 115 125, 130 135" fill="none" />
+                                <path class="svg-hair svg-outline-thin" d="M 170 135 Q 185 125, 200 135" fill="none" />
+
+                                <!-- 1. 맑고 큰 눈 (기본) -->
+                                <g class="part-eye part-eye-1">
+                                    <!-- 좌 -->
+                                    <ellipse cx="115" cy="155" rx="11" ry="15" fill="#2d3436" />
+                                    <circle cx="118" cy="148" r="4.5" fill="#ffffff" />
+                                    <circle cx="110" cy="160" r="2" fill="#ffffff" />
+                                    <!-- 우 -->
+                                    <ellipse cx="185" cy="155" rx="11" ry="15" fill="#2d3436" />
+                                    <circle cx="182" cy="148" r="4.5" fill="#ffffff" />
+                                    <circle cx="190" cy="160" r="2" fill="#ffffff" />
+                                </g>
+                                <!-- 2. 반달 눈 (웃음) -->
+                                <g class="part-eye part-eye-2" style="display:none;">
+                                    <path d="M 102 155 Q 115 140 128 155" fill="none" class="svg-outline" />
+                                    <path d="M 172 155 Q 185 140 198 155" fill="none" class="svg-outline" />
+                                </g>
+                                <!-- 3. 도트 눈 -->
+                                <g class="part-eye part-eye-3" style="display:none;">
+                                    <circle cx="115" cy="155" r="6" fill="#2d3436" />
+                                    <circle cx="185" cy="155" r="6" fill="#2d3436" />
+                                </g>
+                                <!-- 4. 장난스러운 눈 (> <) -->
+                                <g class="part-eye part-eye-4" style="display:none;">
+                                    <path d="M 105 150 L 120 158 L 105 166" fill="none" class="svg-outline" />
+                                    <path d="M 195 150 L 180 158 L 195 166" fill="none" class="svg-outline" />
+                                </g>
+                            </g>
+
+                            <g id="mouths-group">
+                                <!-- 1. 미소 -->
+                                <g class="part-mouth part-mouth-1">
+                                    <path d="M 143 195 Q 150 205 157 195" fill="none" stroke="#8c5a45" stroke-width="3" stroke-linecap="round" />
+                                </g>
+                                <!-- 2. 크게 웃는 입 (D) -->
+                                <g class="part-mouth part-mouth-2" style="display:none;">
+                                    <path d="M 138 190 C 138 190, 150 195, 162 190 C 162 205, 138 205, 138 190 Z" fill="#e74c3c" stroke="#8c5a45" stroke-width="2.5" stroke-linejoin="round" />
+                                </g>
+                                <!-- 3. 고양이 입 (:3) -->
+                                <g class="part-mouth part-mouth-3" style="display:none;">
+                                    <path d="M 140 195 Q 145 190 150 195 Q 155 190 160 195" fill="none" stroke="#8c5a45" stroke-width="3" stroke-linecap="round" />
+                                </g>
+                                <!-- 4. 놀란 입 (O) -->
+                                <g class="part-mouth part-mouth-4" style="display:none;">
+                                    <ellipse cx="150" cy="195" rx="5" ry="7" fill="#8c5a45" />
+                                </g>
+                            </g>
+
+                            <!-- 앞머리 -->
+                            <!-- 남성 헤어 -->
+                            <g class="part-hair part-hair-m-1">
+                                <!-- Haru 기본 스파이키/풍성한 머리 -->
+                                <path class="svg-hair svg-outline" d="M 75 140 C 65 80, 110 30, 160 40 C 200 50, 235 90, 225 140 C 215 110, 190 90, 160 95 C 130 100, 100 115, 75 140 Z" />
+                                <path class="svg-hair svg-outline" d="M 150 40 L 155 15 L 175 45 Z" />
+                                <path class="svg-hair svg-outline" d="M 90 115 L 115 150 L 125 105 Z" />
+                                <path class="svg-hair svg-outline" d="M 210 110 L 185 145 L 175 100 Z" />
+                                <path class="svg-hair svg-outline" d="M 155 95 L 165 140 L 180 95 Z" />
+                            </g>
+                            <g class="part-hair part-hair-m-2" style="display:none;">
+                                <!-- 댄디컷 -->
+                                <path class="svg-hair svg-outline" d="M 80 135 C 75 70, 130 40, 180 50 C 220 60, 220 110, 220 135 C 210 95, 170 80, 140 90 C 110 100, 95 110, 80 135 Z" />
+                                <path class="svg-hair svg-outline" d="M 150 90 C 130 130, 120 140, 120 140 C 120 140, 135 115, 150 90 Z" />
+                            </g>
+                            <g class="part-hair part-hair-m-3" style="display:none;">
+                                <!-- 짧은 머리 -->
+                                <path class="svg-hair svg-outline" d="M 85 130 C 85 70, 130 50, 170 55 C 210 60, 215 100, 215 130 C 200 90, 160 85, 140 90 C 110 95, 95 110, 85 130 Z" />
+                            </g>
+
+                            <!-- 여성 헤어 -->
+                            <g class="part-hair part-hair-f-1" style="display:none;">
+                                <!-- 긴머리 앞 -->
+                                <path class="svg-hair svg-outline" d="M 80 140 C 70 80, 120 40, 160 50 C 200 60, 225 100, 220 140 C 210 110, 180 90, 150 95 C 120 100, 100 115, 80 140 Z" />
+                                <path class="svg-hair svg-outline" d="M 150 95 C 130 140, 135 150, 135 150 C 135 150, 145 125, 160 95 Z" />
+                                <path class="svg-hair svg-outline" d="M 75 120 L 65 250 L 95 240 L 90 140 Z" />
+                                <path class="svg-hair svg-outline" d="M 225 120 L 235 250 L 205 240 L 210 140 Z" />
+                            </g>
+                            <g class="part-hair part-hair-f-2" style="display:none;">
+                                <!-- 포니테일 앞 -->
+                                <path class="svg-hair svg-outline" d="M 80 140 C 70 80, 120 40, 160 50 C 200 60, 225 100, 220 140 C 210 110, 180 90, 150 95 C 120 100, 100 115, 80 140 Z" />
+                                <path class="svg-hair svg-outline" d="M 140 95 C 150 130, 160 140, 160 140 C 160 140, 165 115, 150 95 Z" />
+                                <path class="svg-hair svg-outline" d="M 85 130 L 75 190 L 95 180 L 95 140 Z" />
+                                <rect x="140" y="30" width="30" height="25" rx="10" fill="#e74c3c" class="svg-outline" transform="rotate(20, 150, 40)" />
+                            </g>
+                            <g class="part-hair part-hair-f-3" style="display:none;">
+                                <!-- 단발머리 -->
+                                <path class="svg-hair svg-outline" d="M 80 140 C 70 80, 120 40, 160 50 C 200 60, 225 100, 220 140 L 225 210 C 200 220, 180 190, 200 150 C 180 100, 140 90, 110 110 C 100 150, 100 220, 75 210 L 80 140 Z" />
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+        </main>
+
+        <aside class="controls-panel">
+            <nav class="panel-tabs">
+                <button class="tab-btn active" data-tab="style" data-i18n="tabStyle">성별 & 얼굴</button>
+                <button class="tab-btn" data-tab="hair" data-i18n="tabHair">헤어</button>
+                <button class="tab-btn" data-tab="clothes" data-i18n="tabClothes">의상</button>
+                <button class="tab-btn" data-tab="color" data-i18n="tabColor">색상</button>
+            </nav>
+
+            <div class="controls-scroll">
+                <!-- 탭 1: 성별 & 얼굴 -->
+                <div id="style-content" class="tab-content active">
+                    <div class="control-group">
+                        <label data-i18n="genderLabel">성별 (기본 비율 및 세트 변경)</label>
+                        <div class="style-options" data-type="gender">
+                            <button class="style-btn active" data-id="m">
+                                <i data-lucide="user"></i> <span data-i18n="boy">소년 (Boy)</span>
+                            </button>
+                            <button class="style-btn" data-id="f">
+                                <i data-lucide="user-round"></i> <span data-i18n="girl">소녀 (Girl)</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label data-i18n="eyeLabel">눈 모양</label>
+                        <div class="style-options" data-type="eye">
+                            <button class="style-btn active" data-id="1"><i data-lucide="eye"></i> <span data-i18n="eye1">기본</span></button>
+                            <button class="style-btn" data-id="2"><i data-lucide="smile"></i> <span data-i18n="eye2">웃음</span></button>
+                            <button class="style-btn" data-id="3"><i data-lucide="circle"></i> <span data-i18n="eye3">도트</span></button>
+                            <button class="style-btn" data-id="4"><i data-lucide="squint"></i> <span data-i18n="eye4">장난</span></button>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label data-i18n="mouthLabel">입 모양</label>
+                        <div class="style-options" data-type="mouth">
+                            <button class="style-btn active" data-id="1"><i data-lucide="smile"></i> <span data-i18n="mouth1">미소</span></button>
+                            <button class="style-btn" data-id="2"><i data-lucide="laugh"></i> <span data-i18n="mouth2">활짝</span></button>
+                            <button class="style-btn" data-id="3"><i data-lucide="cat"></i> <span data-i18n="mouth3">고양이</span></button>
+                            <button class="style-btn" data-id="4"><i data-lucide="circle"></i> <span data-i18n="mouth4">놀람</span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 탭 2: 헤어 -->
+                <div id="hair-content" class="tab-content">
+                    <div class="control-group">
+                        <label data-i18n="hairLabel">헤어 스타일</label>
+                        <div class="style-options" data-type="hair" id="hair-options-container">
+                            <!-- JS에서 성별에 따라 동적 생성됨 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 탭 3: 의상 -->
+                <div id="clothes-content" class="tab-content">
+                    <div class="control-group">
+                        <label data-i18n="topLabel">상의 (Top)</label>
+                        <div class="style-options" data-type="top">
+                            <button class="style-btn active" data-id="1"><i data-lucide="shirt"></i> <span data-i18n="top1">반팔티</span></button>
+                            <button class="style-btn" data-id="2"><i data-lucide="user"></i> <span data-i18n="top2">후드티</span></button>
+                            <button class="style-btn" data-id="3"><i data-lucide="briefcase"></i> <span data-i18n="top3">조끼+가방</span></button>
+                            <button class="style-btn" data-id="4"><i data-lucide="align-justify"></i> <span data-i18n="top4">스트라이프</span></button>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label data-i18n="bottomLabel">하의 (Bottom)</label>
+                        <div class="style-options" data-type="bottom">
+                            <button class="style-btn active" data-id="1"><i data-lucide="columns"></i> <span data-i18n="bottom1">반바지</span></button>
+                            <button class="style-btn" data-id="2"><i data-lucide="align-center"></i> <span data-i18n="bottom2">긴바지</span></button>
+                            <button class="style-btn" data-id="3"><i data-lucide="layers"></i> <span data-i18n="bottom3">치마</span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 탭 4: 색상 -->
+                <div id="color-content" class="tab-content">
+                    <div class="control-group">
+                        <label data-i18n="skinLabel">피부 (Skin Tone)</label>
+                        <div class="color-options" id="color-skin"></div>
+                        <input type="color" id="picker-skin" class="hidden-picker">
+                        <button class="custom-color-btn" onclick="document.getElementById('picker-skin').click()">
+                            <i data-lucide="pipette"></i> <span data-i18n="customColor">직접 선택</span>
+                        </button>
+                    </div>
+                    <div class="control-group">
+                        <label data-i18n="hairColorLabel">머리 (Hair Color)</label>
+                        <div class="color-options" id="color-hair"></div>
+                        <input type="color" id="picker-hair" class="hidden-picker">
+                        <button class="custom-color-btn" onclick="document.getElementById('picker-hair').click()">
+                            <i data-lucide="pipette"></i> <span data-i18n="customColor">직접 선택</span>
+                        </button>
+                    </div>
+                    <div class="control-group">
+                        <label data-i18n="topColorLabel">상의 (Top Color)</label>
+                        <div class="color-options" id="color-top"></div>
+                        <input type="color" id="picker-top" class="hidden-picker">
+                        <button class="custom-color-btn" onclick="document.getElementById('picker-top').click()">
+                            <i data-lucide="pipette"></i> <span data-i18n="customColor">직접 선택</span>
+                        </button>
+                    </div>
+                    <div class="control-group">
+                        <label data-i18n="bottomColorLabel">하의 (Bottom Color)</label>
+                        <div class="color-options" id="color-bottom"></div>
+                        <input type="color" id="picker-bottom" class="hidden-picker">
+                        <button class="custom-color-btn" onclick="document.getElementById('picker-bottom').click()">
+                            <i data-lucide="pipette"></i> <span data-i18n="customColor">직접 선택</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
     </div>
-    <div class="header-actions">
-      <button id="lang-toggle" class="btn-header lang-btn" title="Change Language">
-        <i data-lucide="languages"></i> <span id="lang-text">EN</span>
-      </button>
-      <button id="theme-toggle" class="btn-header theme-btn" title="테마 변경">
-        <i data-lucide="moon" class="moon-icon"></i>
-        <i data-lucide="sun" class="sun-icon" style="display:none;"></i>
-      </button>
-      <button class="btn-header random">
-        <i data-lucide="shuffle"></i> <span class="hide-mobile" data-i18n="random">랜덤</span>
-      </button>
-      <button id="download-svg-btn" class="btn-header download secondary">
-        <i data-lucide="code"></i> <span>SVG</span>
-      </button>
-      <button id="download-png-btn" class="btn-header download">
-        <i data-lucide="download"></i> <span>PNG</span>
-      </button>
-    </div>
-  </header>
 
-  <div class="app-container">
-    
-    <!-- Left: Preview (50%) -->
-    <main class="preview-area">
-      <div class="canvas-container">
-        <svg id="avatar-svg" viewBox="0 0 250 800" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="skinShade" cx="50%" cy="30%" r="70%">
-                <stop offset="0%" stop-color="#F1C27D" id="skin-stop-1"/>
-                <stop offset="70%" stop-color="#E0AC69" id="skin-stop-2"/>
-                <stop offset="100%" stop-color="#8D5524" id="skin-stop-3"/>
-              </radialGradient>
-        
-              <linearGradient id="hairShade" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#2d3436" id="hair-stop-1"/>
-                <stop offset="50%" stop-color="#3d3d3d" id="hair-stop-2"/>
-                <stop offset="100%" stop-color="#1a1a1a" id="hair-stop-3"/>
-              </linearGradient>
-        
-              <linearGradient id="shirtShade" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#4834d4" id="shirt-stop-1"/>
-                <stop offset="100%" stop-color="#2c2c54" id="shirt-stop-2"/>
-              </linearGradient>
-        
-              <linearGradient id="pantsShade" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#636e72" id="pants-stop-1"/>
-                <stop offset="100%" stop-color="#2d3436" id="pants-stop-2"/>
-              </linearGradient>
-        
-              <linearGradient id="shoeShade" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#000" id="shoe-stop-1"/>
-                <stop offset="100%" stop-color="#444" id="shoe-stop-2"/>
-              </linearGradient>
-        
-              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(0,0,0,0.1)"/>
-              </filter>
-            </defs>
-        
-            <!-- Character SVG Body -->
-            <g transform="scale(0.8) translate(30,120)">
-              <ellipse cx="125" cy="120" rx="60" ry="80" fill="url(#skinShade)" filter="url(#shadow)"/>
-              <g id="hair-styles">
-                <path id="hair-style-1" d="M65,90 Q125,20 185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)" filter="url(#shadow)"/>
-                <path id="hair-style-2" d="M60,100 Q125,10 190,100 L195,130 Q195,140 180,135 L170,130 Q165,100 125,100 Q85,100 80,130 L70,135 Q55,140 55,130 Z" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
-                <path id="hair-style-3" d="M65,90 L50,70 L80,75 L90,40 L120,70 L135,30 L160,75 L190,50 L185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
-                <path id="hair-style-4" d="M80,50 Q125,20 170,50 Q160,40 125,40 Q90,40 80,50" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
-                <!-- Female Styles -->
-                <path id="hair-style-5" d="M60,100 Q125,20 190,100 L200,300 L170,300 L170,115 Q125,105 80,115 L80,300 L50,300 Z" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
-                <g id="hair-style-6" style="display:none;">
-                  <path d="M65,90 Q125,20 185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)"/>
-                  <path d="M185,80 Q220,70 210,140 Q200,160 180,150" fill="url(#hairShade)"/>
-                </g>
-                <path id="hair-style-7" d="M60,80 Q125,20 190,80 L195,180 L175,180 L175,110 Q125,100 75,110 L75,180 L55,180 Z" fill="url(#hairShade)" filter="url(#shadow)" style="display:none;"/>
-                <g id="hair-style-8" style="display:none;">
-                   <path d="M65,90 Q125,20 185,90 Q170,30 125,30 Q80,30 65,90" fill="url(#hairShade)"/>
-                   <path d="M60,90 Q30,100 40,180 Q50,200 70,180" fill="url(#hairShade)"/>
-                   <path d="M190,90 Q220,100 210,180 Q200,200 180,180" fill="url(#hairShade)"/>
-                </g>
-              </g>
-              <g id="eye-styles">
-                 <g id="eye-style-1">
-                    <ellipse cx="100" cy="110" rx="12" ry="8" fill="white"/>
-                    <circle cx="100" cy="110" r="5" fill="#333"/>
-                    <ellipse cx="150" cy="110" rx="12" ry="8" fill="white"/>
-                    <circle cx="150" cy="110" r="5" fill="#333"/>
-                 </g>
-                 <g id="eye-style-2" style="display:none;">
-                    <rect x="88" y="105" width="24" height="12" rx="4" fill="white"/>
-                    <rect x="94" y="105" width="12" height="12" fill="#333"/>
-                    <rect x="138" y="105" width="24" height="12" rx="4" fill="white"/>
-                    <rect x="144" y="105" width="12" height="12" fill="#333"/>
-                 </g>
-                 <g id="eye-style-3" style="display:none;">
-                    <circle cx="100" cy="110" r="6" fill="#333"/>
-                    <circle cx="150" cy="110" r="6" fill="#333"/>
-                 </g>
-              </g>
-              <path d="M125,120 Q128,135 125,140" stroke="#654321" stroke-width="2" fill="none"/>
-              <g id="mouth-styles">
-                <path id="mouth-style-1" d="M110,155 Q125,165 140,155" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round"/>
-                <path id="mouth-style-2" d="M115,160 Q125,160 135,160" stroke="#333" stroke-width="3" fill="none" stroke-linecap="round" style="display:none;"/>
-                <circle id="mouth-style-3" cx="125" cy="160" r="6" fill="#333" style="display:none;"/>
-              </g>
-            </g>
-            <rect x="65" y="260" width="120" height="200" rx="40" ry="0" fill="url(#shirtShade)" filter="url(#shadow)"/>
-            <rect x="35" y="260" width="30" height="200" rx="20" ry="20" fill="url(#skinShade)" filter="url(#shadow)"/>
-            <rect x="35" y="460" width="20" height="30" rx="5" fill="url(#skinShade)" filter="url(#shadow)"/> 
-            <rect x="55" y="465" width="8" height="20" rx="4" fill="url(#skinShade)" filter="url(#shadow)"/>
-            <rect x="185" y="260" width="30" height="200" rx="20" ry="20" fill="url(#skinShade)" filter="url(#shadow)"/>
-            <rect x="195" y="460" width="20" height="30" rx="5" fill="url(#skinShade)" filter="url(#shadow)"/> 
-            <rect x="187" y="465" width="8" height="20" rx="4" fill="url(#skinShade)" filter="url(#shadow)"/>
-            <g id="bottom-styles">
-              <g id="bottom-style-pants">
-                <rect x="65" y="460" width="50" height="200" rx="0" ry="0" fill="url(#pantsShade)" filter="url(#shadow)"/>
-                <rect x="135" y="460" width="50" height="200" rx="0" ry="0" fill="url(#pantsShade)" filter="url(#shadow)"/>
-              </g>
-              <path id="bottom-style-skirt" d="M65,460 L185,460 L205,620 Q125,640 45,620 Z" fill="url(#pantsShade)" filter="url(#shadow)" style="display:none;"/>
-            </g>
-            <rect x="60" y="660" width="60" height="30" rx="10" ry="10" fill="url(#shoeShade)" filter="url(#shadow)"/>
-            <rect x="130" y="660" width="60" height="30" rx="10" ry="10" fill="url(#shoeShade)" filter="url(#shadow)"/>
-          </svg>
-      </div>
-    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
 
-    <!-- Right: Controls (50%) -->
-    <aside class="controls-panel">
-      <nav class="panel-tabs">
-        <button class="tab-btn active" data-tab="face" data-i18n="tabFace">얼굴</button>
-        <button class="tab-btn" data-tab="hair" data-i18n="tabHair">헤어</button>
-        <button class="tab-btn" data-tab="skin" data-i18n="tabSkin">피부색</button>
-        <button class="tab-btn" data-tab="clothes" data-i18n="tabClothes">옷 & 신발</button>
-      </nav>
+            // i18n 설정
+            const i18n = {
+                ko: {
+                    random: "랜덤", tabStyle: "성별 & 얼굴", tabHair: "헤어", tabClothes: "의상", tabColor: "색상",
+                    genderLabel: "성별 (기본 비율 및 세트 변경)", boy: "소년 (Boy)", girl: "소녀 (Girl)",
+                    eyeLabel: "눈 모양", eye1: "기본", eye2: "웃음", eye3: "도트", eye4: "장난",
+                    mouthLabel: "입 모양", mouth1: "미소", mouth2: "활짝", mouth3: "고양이", mouth4: "놀람",
+                    hairLabel: "헤어 스타일",
+                    hairM1: "더벅머리", hairM2: "댄디컷", hairM3: "스포츠",
+                    hairF1: "긴생머리", hairF2: "포니테일", hairF3: "단발머리",
+                    topLabel: "상의 (Top)", top1: "반팔티", top2: "후드티", top3: "조끼+가방", top4: "스트라이프",
+                    bottomLabel: "하의 (Bottom)", bottom1: "반바지", bottom2: "긴바지", bottom3: "치마",
+                    skinLabel: "피부 (Skin Tone)", hairColorLabel: "머리 (Hair Color)",
+                    topColorLabel: "상의 (Top Color)", bottomColorLabel: "하의 (Bottom Color)",
+                    customColor: "직접 선택"
+                },
+                en: {
+                    random: "Random", tabStyle: "Gender & Face", tabHair: "Hair", tabClothes: "Clothes", tabColor: "Colors",
+                    genderLabel: "Gender (Base & Sets)", boy: "Boy", girl: "Girl",
+                    eyeLabel: "Eye Shape", eye1: "Basic", eye2: "Smile", eye3: "Dot", eye4: "Squint",
+                    mouthLabel: "Mouth Shape", mouth1: "Smile", mouth2: "Laugh", mouth3: "Cat", mouth4: "Surprise",
+                    hairLabel: "Hair Style",
+                    hairM1: "Spiky", hairM2: "Dandy", hairM3: "Sports",
+                    hairF1: "Long", hairF2: "Ponytail", hairF3: "Bob Cut",
+                    topLabel: "Top", top1: "T-Shirt", top2: "Hoodie", top3: "Vest+Bag", top4: "Stripe",
+                    bottomLabel: "Bottom", bottom1: "Shorts", bottom2: "Pants", bottom3: "Skirt",
+                    skinLabel: "Skin Tone", hairColorLabel: "Hair Color",
+                    topColorLabel: "Top Color", bottomColorLabel: "Bottom Color",
+                    customColor: "Custom"
+                }
+            };
 
-      <div class="controls-scroll">
-        <div id="face-content" class="tab-content active">
-          <div class="control-group">
-            <label data-i18n="gender">성별</label>
-            <div class="style-options" data-type="gender">
-               <button class="style-btn active" data-id="male"><i data-lucide="user"></i> <span data-i18n="male">남성</span></button>
-               <button class="style-btn" data-id="female"><i data-lucide="user-round"></i> <span data-i18n="female">여성</span></button>
-            </div>
-          </div>
-          <div class="control-group">
-            <label data-i18n="eyeShape">눈 모양</label>
-            <div class="style-options" data-type="eye">
-               <button class="style-btn active" data-id="1"><i data-lucide="eye"></i> <span data-i18n="styleDefault">기본</span></button>
-               <button class="style-btn" data-id="2"><i data-lucide="square"></i> <span data-i18n="styleSquare">스퀘어</span></button>
-               <button class="style-btn" data-id="3"><i data-lucide="circle"></i> <span data-i18n="styleDot">도트</span></button>
-            </div>
-          </div>
-          <div class="control-group">
-            <label data-i18n="mouthShape">입 모양</label>
-            <div class="style-options" data-type="mouth">
-               <button class="style-btn active" data-id="1"><i data-lucide="smile"></i> <span data-i18n="styleSmile">미소</span></button>
-               <button class="style-btn" data-id="2"><i data-lucide="meh"></i> <span data-i18n="styleNeutral">무표정</span></button>
-               <button class="style-btn" data-id="3"><i data-lucide="circle"></i> <span data-i18n="styleSurprise">놀람</span></button>
-            </div>
-          </div>
-        </div>
+            let currentLang = localStorage.getItem('lang') || 'ko';
 
-        <div id="hair-content" class="tab-content">
-          <div class="control-group">
-            <label data-i18n="hairStyle">헤어 스타일</label>
-            <div class="style-options" data-type="hair">
-               <!-- Hair buttons are dynamically generated -->
-            </div>
-          </div>
-          <div class="control-group">
-            <label data-i18n="hairColor">머리 색상</label>
-            <div class="color-options" id="hair-options"></div>
-            <input type="color" id="hair-color-picker" value="#2d3436">
-          </div>
-        </div>
+            function updateLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('lang', lang);
+                document.documentElement.lang = lang;
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.dataset.i18n;
+                    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+                });
+                const langBtn = document.getElementById('lang-text');
+                if (langBtn) langBtn.textContent = lang === 'ko' ? 'EN' : 'KO';
 
-        <div id="skin-content" class="tab-content">
-          <div class="control-group">
-            <label data-i18n="skinTone">피부색 선택</label>
-            <div class="color-options" id="skin-options"></div>
-            <input type="color" id="skin-color-picker" value="#F1C27D">
-          </div>
-        </div>
+                // 동적으로 렌더링되는 헤어 옵션의 이름도 새로고침
+                const hairContainer = document.getElementById('hair-options-container');
+                if (hairContainer && hairContainer.innerHTML !== '') renderHairOptions();
+            }
 
-        <div id="clothes-content" class="tab-content">
-          <div class="control-group">
-            <label data-i18n="bottomType">하의 종류</label>
-            <div class="style-options" data-type="bottom">
-               <button class="style-btn active" data-id="pants"><i data-lucide="columns"></i> <span data-i18n="pants">바지</span></button>
-               <button class="style-btn" data-id="skirt"><i data-lucide="layers"></i> <span data-i18n="skirt">치마</span></button>
-            </div>
-          </div>
-          <div class="control-group">
-            <label data-i18n="shirtColor">상의 색상</label>
-            <div class="color-options" id="shirt-options"></div>
-            <input type="color" id="shirt-color-picker" value="#4834d4">
-          </div>
-          <div class="control-group">
-            <label data-i18n="bottomColor">하의 색상</label>
-            <div class="color-options" id="pants-options"></div>
-            <input type="color" id="pants-color-picker" value="#636e72">
-          </div>
-        </div>
-      </div>
-    </aside>
+            const langToggle = document.getElementById('lang-toggle');
+            if (langToggle) {
+                langToggle.addEventListener('click', () => {
+                    updateLanguage(currentLang === 'ko' ? 'en' : 'ko');
+                });
+            }
 
-  </div>
-  <script src="main.js"></script>
-  <script>lucide.createIcons();</script>
+            // 상태 관리
+            const state = {
+                gender: 'm', // 'm' or 'f'
+                eye: 1, mouth: 1, hair: 1, top: 3, bottom: 1, // Haru 메인 스타일 디폴트 (조끼+가방)
+                colors: {
+                    skin: '#FFE0C2', hair: '#6C4A35', top: '#4a90e2', bottom: '#334155'
+                }
+            };
+
+            const palettes = {
+                skin: ['#FFF0E6', '#FFE0C2', '#F5CBA7', '#E0AC69', '#C68642', '#8D5524'],
+                hair: ['#6C4A35', '#2d3436', '#b2bec3', '#d63031', '#fdcb6e', '#0984e3', '#6c5ce7', '#e84393'],
+                top: ['#4a90e2', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6', '#34495e', '#ecf0f1', '#e67e22'],
+                bottom: ['#334155', '#1e293b', '#64748b', '#f8fafc', '#0f172a', '#b91c1c', '#047857', '#1d4ed8']
+            };
+
+            const hairOptions = {
+                m: [
+                    { id: 1, i18nKey: 'hairM1', icon: 'zap' },
+                    { id: 2, i18nKey: 'hairM2', icon: 'scissors' },
+                    { id: 3, i18nKey: 'hairM3', icon: 'circle-dashed' }
+                ],
+                f: [
+                    { id: 1, i18nKey: 'hairF1', icon: 'arrow-down' },
+                    { id: 2, i18nKey: 'hairF2', icon: 'star' },
+                    { id: 3, i18nKey: 'hairF3', icon: 'scissors' }
+                ]
+            };
+
+            // 다크 모드 토글
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.body.classList.toggle('dark-mode');
+                document.querySelector('.moon-icon').style.display = isDark ? 'none' : 'block';
+                document.querySelector('.sun-icon').style.display = isDark ? 'block' : 'none';
+            });
+
+            // 탭 전환
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn, .tab-content').forEach(el => el.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(`${btn.dataset.tab}-content`).classList.add('active');
+                });
+            });
+
+            // SVG 렌더링 함수
+            function updateAvatar() {
+                const svg = document.getElementById('avatar-svg');
+
+                // 1. 파츠 토글
+                const toggleParts = (prefix, currentId, allowGender = false) => {
+                    svg.querySelectorAll(`.part-${prefix}`).forEach(el => el.style.display = 'none');
+                    const targetClass = allowGender ? `.part-${prefix}-${state.gender}-${currentId}` : `.part-${prefix}-${currentId}`;
+                    svg.querySelectorAll(targetClass).forEach(el => el.style.display = 'block');
+                };
+
+                toggleParts('eye', state.eye);
+                toggleParts('mouth', state.mouth);
+                toggleParts('top', state.top);
+                toggleParts('bottom', state.bottom);
+                toggleParts('hair', state.hair, true);
+
+                // 2. 색상 변수 업데이트 (그림자 자동 계산)
+                const shade = (col, amt) => {
+                    let usePound = false;
+                    if (col[0] == "#") { col = col.slice(1); usePound = true; }
+                    let num = parseInt(col, 16);
+                    let r = (num >> 16) + amt; if (r > 255) r = 255; else if (r < 0) r = 0;
+                    let b = ((num >> 8) & 0x00FF) + amt; if (b > 255) b = 255; else if (b < 0) b = 0;
+                    let g = (num & 0x0000FF) + amt; if (g > 255) g = 255; else if (g < 0) g = 0;
+                    return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16).padStart(6, '0');
+                };
+
+                svg.style.setProperty('--skin-color', state.colors.skin);
+                svg.style.setProperty('--skin-dark', shade(state.colors.skin, -30));
+                svg.style.setProperty('--hair-color', state.colors.hair);
+                svg.style.setProperty('--hair-dark', shade(state.colors.hair, -40));
+                svg.style.setProperty('--top-color', state.colors.top);
+                svg.style.setProperty('--top-dark', shade(state.colors.top, -40));
+                svg.style.setProperty('--bottom-color', state.colors.bottom);
+                svg.style.setProperty('--bottom-dark', shade(state.colors.bottom, -30));
+
+                // UI 버튼 동기화
+                syncActiveButtons();
+            }
+
+            // 헤어 옵션 동적 렌더링
+            function renderHairOptions() {
+                const container = document.getElementById('hair-options-container');
+                if (!container) return;
+                container.innerHTML = '';
+                hairOptions[state.gender].forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = `style-btn ${state.hair === opt.id ? 'active' : ''}`;
+                    btn.dataset.id = opt.id;
+                    btn.innerHTML = `<i data-lucide="${opt.icon}"></i> <span>${i18n[currentLang][opt.i18nKey]}</span>`;
+                    btn.addEventListener('click', () => {
+                        state.hair = opt.id;
+                        triggerShake();
+                        updateAvatar();
+                    });
+                    container.appendChild(btn);
+                });
+                lucide.createIcons();
+            }
+
+            // 버튼 클릭 이벤트 바인딩
+            document.querySelectorAll('.style-options[data-type]').forEach(group => {
+                const type = group.dataset.type;
+                if (type === 'hair') return; // 헤어는 동적 렌더링
+
+                group.querySelectorAll('.style-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.dataset.id;
+                        if (type === 'gender') {
+                            if (state.gender !== id) {
+                                state.gender = id;
+                                state.hair = 1; // 성별 변경 시 헤어 리셋
+                                renderHairOptions();
+                            }
+                        } else {
+                            state[type] = parseInt(id);
+                        }
+                        triggerShake();
+                        updateAvatar();
+                    });
+                });
+            });
+
+            // 팔레트 렌더링
+            ['skin', 'hair', 'top', 'bottom'].forEach(part => {
+                const cont = document.getElementById(`color-${part}`);
+                const picker = document.getElementById(`picker-${part}`);
+
+                palettes[part].forEach(color => {
+                    const swatch = document.createElement('div');
+                    swatch.className = 'color-swatch';
+                    swatch.style.backgroundColor = color;
+                    swatch.addEventListener('click', () => {
+                        state.colors[part] = color;
+                        picker.value = color;
+                        updateAvatar();
+                        cont.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                        swatch.classList.add('active');
+                    });
+                    cont.appendChild(swatch);
+                });
+
+                picker.addEventListener('input', e => {
+                    state.colors[part] = e.target.value;
+                    updateAvatar();
+                    cont.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                });
+            });
+
+            // 버튼 활성 상태 동기화
+            function syncActiveButtons() {
+                ['gender', 'eye', 'mouth', 'top', 'bottom'].forEach(type => {
+                    const group = document.querySelector(`.style-options[data-type="${type}"]`);
+                    if (group) {
+                        group.querySelectorAll('.style-btn').forEach(btn => {
+                            btn.classList.toggle('active', btn.dataset.id == state[type]);
+                        });
+                    }
+                });
+            }
+
+            // 애니메이션 효과
+            function triggerShake() {
+                const body = document.getElementById('full-body');
+                body.classList.remove('shake');
+                void body.offsetWidth; // reflow
+                body.classList.add('shake');
+                setTimeout(() => body.classList.remove('shake'), 500);
+            }
+
+            // 랜덤 버튼
+            document.querySelector('.random').addEventListener('click', () => {
+                state.gender = Math.random() > 0.5 ? 'm' : 'f';
+                state.eye = Math.floor(Math.random() * 4) + 1;
+                state.mouth = Math.floor(Math.random() * 4) + 1;
+                state.hair = Math.floor(Math.random() * 3) + 1;
+                state.top = Math.floor(Math.random() * 4) + 1;
+                state.bottom = Math.floor(Math.random() * 3) + 1;
+
+                ['skin', 'hair', 'top', 'bottom'].forEach(part => {
+                    state.colors[part] = palettes[part][Math.floor(Math.random() * palettes[part].length)];
+                    document.getElementById(`picker-${part}`).value = state.colors[part];
+                });
+
+                renderHairOptions();
+                updateAvatar();
+                triggerShake();
+            });
+
+            // 다운로드 로직
+            const triggerDownload = (url, filename) => {
+                const a = document.createElement('a');
+                a.href = url; a.download = filename;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            };
+
+            document.getElementById('download-svg-btn').addEventListener('click', () => {
+                const svg = document.getElementById('avatar-svg').cloneNode(true);
+                // SVG 내 CSS 변수 하드코딩 변환 (외부 뷰어 호환성)
+                const content = svg.innerHTML
+                    .replace(/var\(--skin-color, [^)]+\)/g, state.colors.skin)
+                    .replace(/var\(--hair-color, [^)]+\)/g, state.colors.hair)
+                    .replace(/var\(--top-color, [^)]+\)/g, state.colors.top)
+                    .replace(/var\(--bottom-color, [^)]+\)/g, state.colors.bottom);
+                svg.innerHTML = content;
+
+                let src = new XMLSerializer().serializeToString(svg);
+                if (!src.match(/^<\?xml/)) src = '<?xml version="1.0" standalone="no"?>\r\n' + src;
+                const url = URL.createObjectURL(new Blob([src], { type: 'image/svg+xml;charset=utf-8' }));
+                triggerDownload(url, 'avatar_pro.svg');
+            });
+
+            document.getElementById('download-png-btn').addEventListener('click', () => {
+                const svg = document.getElementById('avatar-svg');
+                const src = new XMLSerializer().serializeToString(svg);
+                const canvas = document.createElement('canvas');
+                canvas.width = 1200; canvas.height = 2000; // 고해상도
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                const url = URL.createObjectURL(new Blob([src], { type: 'image/svg+xml;charset=utf-8' }));
+                img.onload = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    triggerDownload(canvas.toDataURL('image/png'), 'avatar_pro.png');
+                    URL.revokeObjectURL(url);
+                };
+                img.src = url;
+            });
+
+            // 초기화
+            updateLanguage(currentLang);
+            renderHairOptions();
+            updateAvatar();
+
+            // 초기 색상 팔레트 활성화 UI
+            ['skin', 'hair', 'top', 'bottom'].forEach(part => {
+                const swatch = Array.from(document.getElementById(`color-${part}`).children)
+                    .find(el => el.style.backgroundColor === hexToRgb(state.colors[part]));
+                if (swatch) swatch.classList.add('active');
+            });
+
+            // HEX to RGB 보조함수
+            function hexToRgb(hex) {
+                var bigint = parseInt(hex.slice(1), 16);
+                var r = (bigint >> 16) & 255;
+                var g = (bigint >> 8) & 255;
+                var b = bigint & 255;
+                return `rgb(${r}, ${g}, ${b})`;
+            }
+
+        });
+    </script>
 </body>
 </html>
